@@ -41,6 +41,7 @@ export default function ToolsMarquee() {
                                     width={40}
                                     height={40}
                                     className="object-contain"
+                                    unoptimized
                                 />
                             </div>
                             <span className="font-mono text-sm tracking-wider text-muted hidden md:block whitespace-nowrap">{tool.name}</span>
@@ -59,6 +60,7 @@ export default function ToolsMarquee() {
                                     width={40}
                                     height={40}
                                     className="object-contain"
+                                    unoptimized
                                 />
                             </div>
                             <span className="font-mono text-sm tracking-wider text-muted hidden md:block whitespace-nowrap">{tool.name}</span>
