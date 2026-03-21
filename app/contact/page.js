@@ -2,12 +2,36 @@
 
 import { Mail, Linkedin, Github, MessageSquare, Send } from "lucide-react";
 import TerminalCard from "@/components/TerminalCard";
+import { useState } from "react";
 
 export default function ContactPage() {
-    const handleSubmit = (e) => {
+    const [status, setStatus] = useState("");
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Prevent default form submission for demo
-        alert("Connection established. Message intercepted and logged.");
+        setStatus("submitting");
+
+        const formData = new FormData(e.target);
+        
+        try {
+            const response = await fetch("https://formsubmit.co/ajax/tanishqnikam11@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Accept': 'application/json'
+                },
+                body: formData
+            });
+            
+            if (response.ok) {
+                setStatus("success");
+                e.target.reset();
+                setTimeout(() => setStatus(""), 5000); // Clear success message after 5 seconds
+            } else {
+                setStatus("error");
+            }
+        } catch (error) {
+            setStatus("error");
+        }
     };
 
     return (
@@ -27,7 +51,7 @@ export default function ContactPage() {
                     <TerminalCard title="Direct Links" icon={Send}>
                         <div className="flex flex-col gap-4">
                             <a
-                                href="mailto:contact@tanishqnikam.com"
+                                href="mailto:tanishqnikam11@gmail.com"
                                 className="flex items-center gap-4 p-4 border border-[#2a2a2a] rounded bg-[#0a0a0a] hover:border-primary group transition-colors"
                             >
                                 <div className="p-3 bg-[#111] rounded group-hover:bg-primary/10 transition-colors">
@@ -35,7 +59,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <h3 className="text-white font-bold font-mono">Encrypted Email</h3>
-                                    <p className="text-muted text-sm">contact@tanishqnikam.com</p>
+                                    <p className="text-muted text-sm">tanishqnikam11@gmail.com</p>
                                 </div>
                             </a>
 
@@ -82,6 +106,7 @@ export default function ContactPage() {
                                 <input
                                     type="text"
                                     id="name"
+                                    name="name"
                                     required
                                     className="bg-[#0a0a0a] border border-[#2a2a2a] p-3 rounded text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors"
                                     placeholder="Enter your name"
@@ -95,6 +120,7 @@ export default function ContactPage() {
                                 <input
                                     type="email"
                                     id="email"
+                                    name="email"
                                     required
                                     className="bg-[#0a0a0a] border border-[#2a2a2a] p-3 rounded text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors"
                                     placeholder="name@domain.com"
@@ -107,6 +133,7 @@ export default function ContactPage() {
                                 </label>
                                 <textarea
                                     id="message"
+                                    name="message"
                                     required
                                     rows={5}
                                     className="bg-[#0a0a0a] border border-[#2a2a2a] p-3 rounded text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors resize-none"
@@ -114,12 +141,33 @@ export default function ContactPage() {
                                 />
                             </div>
 
+                            {/* Formsubmit anti-spam trick (honeypot) */}
+                            <input type="text" name="_honey" style={{ display: 'none' }} />
+                            
+                            {/* Disable captcha to keep it seamless */}
+                            <input type="hidden" name="_captcha" value="false" />
+
                             <button
                                 type="submit"
-                                className="mt-4 bg-[#111111] border border-secondary text-secondary font-mono font-bold py-3 px-6 rounded hover:bg-secondary hover:text-black transition-all flex items-center justify-center gap-2"
+                                disabled={status === "submitting"}
+                                className="mt-4 bg-[#111111] border border-secondary text-secondary font-mono font-bold py-3 px-6 rounded hover:bg-secondary hover:text-black transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                <Send className="w-4 h-4" /> INITIATE_TRANSFER
+                                <Send className="w-4 h-4" /> 
+                                {status === "submitting" ? "TRANSMITTING..." : 
+                                 status === "success" ? "PAYLOAD_DELIVERED" : 
+                                 "INITIATE_TRANSFER"}
                             </button>
+
+                            {status === "success" && (
+                                <p className="text-[#00ff41] text-xs font-mono mt-1 text-center animate-pulse">
+                                    Connection established. Message securely transmitted.
+                                </p>
+                            )}
+                            {status === "error" && (
+                                <p className="text-red-500 text-xs font-mono mt-1 text-center">
+                                    Transmission failed. Please use direct encrypted email.
+                                </p>
+                            )}
                         </form>
                     </TerminalCard>
                 </div>
