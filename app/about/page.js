@@ -380,12 +380,7 @@ export default function AboutPage() {
                         <p className="text-[#555] text-xs font-mono border-l-2 border-[#00f0ff] pl-3 leading-relaxed">
                             "Offense informs defense. Understanding the attacker is the first step to stopping them."
                         </p>
-                        <Link
-                            href="/skills"
-                            className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#2a2a2a] text-[#888] text-xs font-mono rounded-sm hover:border-[#00f0ff]/40 hover:text-[#00f0ff] transition-colors"
-                        >
-                            <ChevronRight className="w-3 h-3" /> VIEW_SKILLS
-                        </Link>
+
                         <Link
                             href="/projects"
                             className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#2a2a2a] text-[#888] text-xs font-mono rounded-sm hover:border-[#00f0ff]/40 hover:text-[#00f0ff] transition-colors"
