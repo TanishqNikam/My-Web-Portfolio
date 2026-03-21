@@ -46,24 +46,22 @@ export default function ThreatRadar() {
         };
         window.addEventListener('resize', resizeCanvas);
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.baseSize = this.size;
-                this.density = (Math.random() * 30) + 1;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
+        function Particle() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 1;
+            this.baseSize = this.size;
+            this.density = (Math.random() * 30) + 1;
+            this.vx = (Math.random() - 0.5) * 0.5;
+            this.vy = (Math.random() - 0.5) * 0.5;
 
-                // 15% chance to be considered a "threat" node (flashes red instead of bright cyan)
-                this.isThreat = Math.random() < 0.15;
+            // 15% chance to be considered a "threat" node (flashes red instead of bright cyan)
+            this.isThreat = Math.random() < 0.15;
 
-                // For the flash effect
-                this.flashIntensity = 0;
-            }
+            // For the flash effect
+            this.flashIntensity = 0;
 
-            draw() {
+            this.draw = function() {
                 // Base colors
                 let r = 0, g = 240, b = 255; // Cyan
 
@@ -92,9 +90,9 @@ export default function ThreatRadar() {
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.closePath();
                 ctx.fill();
-            }
+            };
 
-            update() {
+            this.update = function() {
                 this.x += this.vx;
                 this.y += this.vy;
 
@@ -137,7 +135,7 @@ export default function ThreatRadar() {
                 }
 
                 this.draw();
-            }
+            };
         }
 
         const initParticles = () => {

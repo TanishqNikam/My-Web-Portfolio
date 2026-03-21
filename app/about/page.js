@@ -378,7 +378,7 @@ export default function AboutPage() {
                         className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-lg p-4 flex flex-col gap-3"
                     >
                         <p className="text-[#555] text-xs font-mono border-l-2 border-[#00f0ff] pl-3 leading-relaxed">
-                            "Offense informs defense. Understanding the attacker is the first step to stopping them."
+                            &quot;Offense informs defense. Understanding the attacker is the first step to stopping them.&quot;
                         </p>
 
                         <Link

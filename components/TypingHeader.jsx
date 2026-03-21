@@ -25,8 +25,10 @@ export default function TypingHeader() {
 
         if (isDeleting) {
             if (displayText === "") {
-                setIsDeleting(false);
-                setTitleIndex((prev) => (prev + 1) % titles.length);
+                timeout = setTimeout(() => {
+                    setIsDeleting(false);
+                    setTitleIndex((prev) => (prev + 1) % titles.length);
+                }, DELETING_SPEED);
             } else {
                 timeout = setTimeout(() => {
                     setDisplayText(currentTitle.substring(0, displayText.length - 1));
