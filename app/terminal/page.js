@@ -27,13 +27,13 @@ export default function TerminalPage() {
                 setHistory(newHistory);
             } else if (cmd === "help") {
                 newHistory.push({ type: "system", content: "Available commands:" });
-                newHistory.push({ type: "system", content: "  whoami      - Print current user privileges" });
-                newHistory.push({ type: "system", content: "  ls          - List directory contents" });
-                newHistory.push({ type: "system", content: "  cat <file>  - Read the contents of a file" });
-                newHistory.push({ type: "system", content: "  clear       - Clear the terminal screen" });
-                newHistory.push({ type: "system", content: "  sudo <cmd>  - Execute command as superuser" });
-                newHistory.push({ type: "system", content: "  sudo hire   - [CLASSIFIED] Initiate recruitment protocol" });
-                newHistory.push({ type: "system", content: "  rm -rf /    - [WARNING] Initiate self-destruct sequence" });
+                newHistory.push({ type: "system", content: "  whoami\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0- Print current user privileges" });
+                newHistory.push({ type: "system", content: "  ls\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0- List directory contents" });
+                newHistory.push({ type: "system", content: "  cat <file>\u00A0\u00A0- Read the contents of a file" });
+                newHistory.push({ type: "system", content: "  clear\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0- Clear the terminal screen" });
+                newHistory.push({ type: "system", content: "  sudo <cmd>\u00A0\u00A0- Execute command as superuser" });
+                newHistory.push({ type: "system", content: "  sudo hire\u00A0\u00A0\u00A0- [CLASSIFIED] Initiate recruitment protocol" });
+                newHistory.push({ type: "system", content: "  rm -rf /\u00A0\u00A0\u00A0\u00A0- [WARNING] Initiate self-destruct sequence" });
                 setHistory(newHistory);
             } else if (cmd === "whoami") {
                 newHistory.push({ type: "system", content: "user: guest" });
