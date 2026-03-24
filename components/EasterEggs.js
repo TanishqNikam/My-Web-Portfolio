@@ -17,6 +17,7 @@ export default function EasterEggs() {
   const [konamiIndex, setKonamiIndex] = useState(0);
   const [matrixMode, setMatrixMode] = useState(false);
   const [honeypotState, setHoneypotState] = useState("idle"); // idle | alert | joke
+  const [kernelPanic, setKernelPanic] = useState(false);
 
   // 0. Sudo Hire Easter Egg
   useEffect(() => {
@@ -63,6 +64,59 @@ export default function EasterEggs() {
         }, 2500);
 
         typedStr = ""; // Reset
+      }
+    };
+
+    window.addEventListener("keydown", handleGlobalTyping);
+    return () => window.removeEventListener("keydown", handleGlobalTyping);
+  }, []);
+
+  // 0.5 Self-Destruct Sequence (rm -rf /)
+  useEffect(() => {
+    let typedStr = "";
+    const targetStr = "rm-rf/"; // target without spaces
+
+    const handleGlobalTyping = (e) => {
+      if (e.key.length !== 1) return;
+      
+      const char = e.key.toLowerCase();
+      if (char !== " ") {
+        typedStr += char;
+      }
+      
+      if (typedStr.length > targetStr.length) {
+        typedStr = typedStr.slice(-targetStr.length);
+      }
+
+      if (typedStr === targetStr) {
+        typedStr = ""; // Reset
+        
+        // Grab basically everything visible on the screen
+        const allElements = Array.from(document.querySelectorAll('div, p, h1, h2, h3, h4, a, button, img, section, span, li, ul, form, input, textarea'))
+          .filter(el => !el.closest('#kernel-panic-screen') && el.id !== 'kernel-panic-screen');
+        
+        let counter = 0;
+        const interval = setInterval(() => {
+          // pick 15 random elements to aggressively "delete" per tick
+          for(let i=0; i<15; i++) {
+            if (allElements.length === 0) break;
+            const randomIndex = Math.floor(Math.random() * allElements.length);
+            const el = allElements[randomIndex];
+            if (el && el.style) {
+              el.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+              el.style.transform = `scale(0.8) translateY(50px) rotate(${Math.random() * 20 - 10}deg)`;
+              el.style.opacity = '0';
+              el.style.filter = 'blur(4px)';
+            }
+            allElements.splice(randomIndex, 1);
+          }
+          
+          if (allElements.length === 0 || counter > 30) { 
+             clearInterval(interval);
+             setTimeout(() => setKernelPanic(true), 500);
+          }
+          counter++;
+        }, 100); // 100ms per tick of deletion
       }
     };
 
@@ -189,6 +243,36 @@ export default function EasterEggs() {
             </div>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      {/* Kernel Panic Modal (Self-Destruct) */}
+      <AnimatePresence>
+         {kernelPanic && (
+            <motion.div
+              id="kernel-panic-screen"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.1 }}
+              className="fixed inset-0 z-[10000] bg-black flex flex-col items-center justify-center p-8 text-center"
+            >
+              <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgba(0,0,0,0.1),rgba(0,0,0,0.1)_1px,transparent_1px,transparent_2px)] pointer-events-none z-10" />
+
+              <h1 className="text-red-500 font-mono text-4xl md:text-6xl font-bold mb-4 tracking-widest relative z-20 animate-pulse" style={{ textShadow: "0 0 20px red" }}>
+                FATAL ERROR: KERNEL PANIC
+              </h1>
+              <p className="text-red-400 font-mono text-lg md:text-xl max-w-2xl mb-8 relative z-20">
+                System records destroyed. Root partition compromised. <br/><br/>
+                Whoops... you actually ran <span className="text-white bg-red-950 px-2 py-1 ml-1 rounded">rm -rf /</span>
+              </p>
+              
+              <button 
+                onClick={() => window.location.reload()}
+                className="px-8 py-3 border-2 border-red-500 text-red-500 font-mono font-bold tracking-widest rounded hover:bg-red-500 hover:text-black transition-colors relative z-20"
+              >
+                REBOOT_SYSTEM
+              </button>
+            </motion.div>
+         )}
       </AnimatePresence>
     </>
   );
