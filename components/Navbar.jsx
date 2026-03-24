@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Shield, Menu, X, Download } from "lucide-react";
+import { Shield, Menu, X, Download, Moon, Zap } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -22,6 +22,18 @@ export default function Navbar() {
     const [bruteForceMode, setBruteForceMode] = useState(false);
     const [crackProgress, setCrackProgress] = useState([]);
     const [glitchCount, setGlitchCount] = useState(0);
+
+    const [isBroken, setIsBroken] = useState(false);
+    const [showToast, setShowToast] = useState(false);
+
+    const handleLightModeClick = (e) => {
+        e.preventDefault();
+        if (isBroken) return;
+        setIsBroken(true);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 4000);
+        setTimeout(() => setIsBroken(false), 5000); // Fixed reset after 5s
+    };
 
     const handleLogoClick = (e) => {
         const newCount = glitchCount + 1;
@@ -86,11 +98,12 @@ export default function Navbar() {
     };
 
     return (
-        <nav className={cn(
-            "sticky top-0 z-50 w-full border-b border-[#2a2a2a] font-mono transition-colors duration-300",
-            isOpen ? "bg-[#0a0a0a]" : "bg-[#0a0a0a]/80 backdrop-blur-md"
-        )}>
-            <div className="container mx-auto px-4 lg:px-8">
+        <>
+            <nav className={cn(
+                "sticky top-0 z-50 w-full border-b border-[#2a2a2a] font-mono transition-colors duration-300",
+                isOpen ? "bg-[#0a0a0a]" : "bg-[#0a0a0a]/80 backdrop-blur-md"
+            )}>
+                <div className="container mx-auto px-4 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link 
@@ -117,6 +130,16 @@ export default function Navbar() {
                             </Link>
                         ))}
                         <div className="flex-1"></div>
+                        <button
+                            onClick={handleLightModeClick}
+                            className={`relative flex items-center justify-center w-8 h-8 rounded border border-[#2a2a2a] bg-[#0a0a0a] transition-all duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] ${isBroken ? 'rotate-[135deg] translate-y-6 translate-x-2 border-red-500/50 pointer-events-none' : 'hover:bg-[#111] hover:border-primary'}`}
+                            title="Toggle Light Mode"
+                        >
+                            <Moon className={`w-4 h-4 ${isBroken ? 'text-red-500' : 'text-muted hover:text-white transition-colors'}`} />
+                            {isBroken && (
+                                <Zap className="absolute text-yellow-400 w-5 h-5 -top-3 -right-3 animate-ping opacity-70" />
+                            )}
+                        </button>
                         <a 
                             href="/resume.pdf" 
                             download 
@@ -169,10 +192,20 @@ export default function Navbar() {
                             >
                                 <Download className="w-4 h-4" /> Download Resume
                             </a>
+                            <button
+                                onClick={handleLightModeClick}
+                                className={`relative flex items-center gap-2 text-sm uppercase p-2 border-l-2 border-transparent transition-all duration-700 w-fit ${isBroken ? 'rotate-[15deg] translate-y-2 border-red-500/50 text-red-500 pointer-events-none' : 'text-muted hover:border-primary hover:text-white'}`}
+                            >
+                                <Moon className="w-4 h-4 z-10" /> Toggle Light Mode
+                                {isBroken && (
+                                    <Zap className="absolute text-yellow-400 w-6 h-6 left-0 top-0 animate-ping opacity-70" />
+                                )}
+                            </button>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
+            </nav>
 
             {/* Brute Force Easter Egg Modal */}
             <AnimatePresence>
@@ -200,6 +233,28 @@ export default function Navbar() {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </nav>
+
+            {/* Light Mode Violation Toast */}
+            <AnimatePresence>
+                {showToast && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        className="fixed bottom-6 inset-x-0 z-[100000] flex justify-center pointer-events-none px-4"
+                    >
+                        <div className="bg-[#050505] border border-red-500 px-6 py-4 rounded shadow-[0_0_40px_rgba(255,0,0,0.25)] flex flex-col items-center min-w-[300px] max-w-sm w-full text-center">
+                            <div className="text-red-500 font-bold text-xs md:text-sm uppercase tracking-widest mb-2 flex items-center justify-center gap-2 w-full border-b border-red-500/30 pb-2">
+                                <Shield className="w-4 h-4" /> Security Violation
+                            </div>
+                            <div className="text-muted text-[10px] md:text-xs leading-relaxed mt-1">
+                                TN-SOC strictly enforces Dark Mode.<br/>
+                                <span className="text-white font-bold tracking-wide">Light mode is a security risk.</span>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </>
     );
 }
