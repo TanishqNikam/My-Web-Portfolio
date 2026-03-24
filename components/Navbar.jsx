@@ -19,6 +19,43 @@ const navLinks = [
 export default function Navbar() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
+    const [bruteForceMode, setBruteForceMode] = useState(false);
+    const [crackProgress, setCrackProgress] = useState([]);
+
+    const startBruteForce = () => {
+        setBruteForceMode(true);
+        setIsOpen(false);
+        setCrackProgress(["[+] INITIALIZING HYDRA v9.4", "[+] TARGET: TN-SOC_RESUME_ENCRYPTED.pdf", "[+] LOADING WORDLIST... [rockyou.txt]"]);
+        
+        let attempts = 0;
+        const interval = setInterval(() => {
+            attempts++;
+            const hash = Math.random().toString(36).substring(2, 12).toUpperCase();
+            const pass = Math.random().toString(36).substring(2, 8);
+            setCrackProgress(prev => [...prev, `[-] TESTING HASH: ${hash} (pwd: ${pass}) ... FAILED`].slice(-15));
+            
+            if (attempts > 25) {
+                clearInterval(interval);
+                setCrackProgress(prev => [...prev.slice(-14), "[!] MATCH FOUND: 'admin123'", "[+] ENCRYPTION CRACKED. DOWNLOADING PORTFOLIO..."]);
+                setTimeout(() => {
+                    const link = document.createElement("a");
+                    link.href = "/resume.pdf";
+                    link.download = "Tanishq_Nikam_Resume.pdf";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    setTimeout(() => setBruteForceMode(false), 3000);
+                }, 1500);
+            }
+        }, 100);
+    };
+
+    const handleResumeClick = (e) => {
+        if (e.shiftKey) {
+            e.preventDefault();
+            startBruteForce();
+        }
+    };
 
     return (
         <nav className={cn(
@@ -48,7 +85,13 @@ export default function Navbar() {
                             </Link>
                         ))}
                         <div className="flex-1"></div>
-                        <a href="/resume.pdf" download className="flex items-center gap-2 text-xs uppercase border border-[#2a2a2a] px-3 py-1.5 rounded hover:bg-[#111111] hover:border-primary text-primary transition-all whitespace-nowrap">
+                        <a 
+                            href="/resume.pdf" 
+                            download 
+                            onClick={handleResumeClick}
+                            title="Hold Shift to simulate a Brute Force attack"
+                            className="flex items-center gap-2 text-xs uppercase border border-[#2a2a2a] px-3 py-1.5 rounded hover:bg-[#111111] hover:border-primary text-primary transition-all whitespace-nowrap cursor-pointer"
+                        >
                             <Download className="w-3 h-3" /> Resume
                         </a>
                     </div>
@@ -86,9 +129,41 @@ export default function Navbar() {
                                     {link.label}
                                 </Link>
                             ))}
-                            <a href="/resume.pdf" download className="flex items-center gap-2 text-sm uppercase p-2 text-primary border-l-2 border-transparent hover:border-primary transition-all">
+                            <a 
+                                href="/resume.pdf" 
+                                download 
+                                onClick={handleResumeClick}
+                                className="flex items-center gap-2 text-sm uppercase p-2 text-primary border-l-2 border-transparent hover:border-primary transition-all cursor-pointer"
+                            >
                                 <Download className="w-4 h-4" /> Download Resume
                             </a>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Brute Force Easter Egg Modal */}
+            <AnimatePresence>
+                {bruteForceMode && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 top-0 left-0 w-screen h-screen z-[100000] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 pointer-events-auto"
+                        style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+                    >
+                        <div className="bg-[#050505] border border-primary/50 w-full max-w-2xl h-[400px] sm:h-[500px] flex flex-col rounded shadow-[0_0_50px_rgba(0,240,255,0.15)] font-mono">
+                            <div className="bg-[#111] p-3 border-b border-primary/30 flex justify-between text-xs md:text-sm text-primary">
+                                <span>tn-soc@hydration-server:~</span>
+                                <span className="animate-pulse">BRUTE_FORCE_ACTIVE</span>
+                            </div>
+                            <div className="flex-grow p-4 md:p-6 overflow-hidden flex flex-col justify-end space-y-1.5 text-[10px] sm:text-xs md:text-sm">
+                                {crackProgress.map((line, i) => (
+                                    <div key={i} className={line.includes('FAILED') ? 'text-[#00ff41]/70' : line.includes('MATCH FOUND') ? 'text-red-500 font-bold bg-red-500/10 inline-block px-1' : 'text-white'}>
+                                        {line}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </motion.div>
                 )}

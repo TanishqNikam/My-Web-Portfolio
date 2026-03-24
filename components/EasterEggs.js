@@ -20,6 +20,7 @@ export default function EasterEggs() {
   const [kernelPanic, setKernelPanic] = useState(false);
   const [c2Mode, setC2Mode] = useState(false);
   const [c2Logs, setC2Logs] = useState([]);
+  const [zeroDayMode, setZeroDayMode] = useState(false);
 
   // 0. Sudo Hire Easter Egg
   useEffect(() => {
@@ -161,6 +162,57 @@ export default function EasterEggs() {
 
     return () => clearInterval(interval);
   }, [c2Mode]);
+
+  // 0.8 Zero-Day Shatter Cursor
+  useEffect(() => {
+    let typedStr = "";
+    const targetStr = "zeroday";
+
+    const handleGlobalTyping = (e) => {
+      // Ignore if inside an input or textarea
+      if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
+      if (e.key.length !== 1) return;
+      
+      typedStr += e.key.toLowerCase();
+      if (typedStr.length > targetStr.length) typedStr = typedStr.slice(-targetStr.length);
+
+      if (typedStr === targetStr) {
+        typedStr = ""; // Reset
+        setZeroDayMode(prev => {
+            const nextMode = !prev;
+            if (nextMode) {
+                document.body.style.cursor = 'crosshair';
+            } else {
+                document.body.style.cursor = 'auto';
+            }
+            return nextMode;
+        });
+      }
+    };
+    window.addEventListener("keydown", handleGlobalTyping);
+    return () => window.removeEventListener("keydown", handleGlobalTyping);
+  }, []);
+
+  // Handle Shatter Clicks
+  useEffect(() => {
+      if (!zeroDayMode) return;
+      const handleShatter = (e) => {
+          // Easter egg overrides normal link clicking
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const el = e.target;
+          if (el.id === 'easter-eggs-layer' || el.tagName === 'BODY' || el.tagName === 'HTML') return;
+          
+          el.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+          el.style.transform = `scale(0.2) rotate(${Math.random() * 180 - 90}deg) translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
+          el.style.opacity = '0';
+          el.style.pointerEvents = 'none';
+      };
+      
+      document.addEventListener("click", handleShatter, { capture: true, passive: false });
+      return () => document.removeEventListener("click", handleShatter, { capture: true });
+  }, [zeroDayMode]);
 
   // 1. Console Log Secret
   useEffect(() => {
@@ -398,6 +450,13 @@ export default function EasterEggs() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Zero-Day UI Warning */}
+      {zeroDayMode && (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[10000] bg-red-500 text-black px-4 py-1 font-mono text-xs md:text-sm font-bold rounded animate-pulse pointer-events-none tracking-widest shadow-[0_0_20px_red]">
+              ZERO-DAY CURSOR ACTIVE - CLICK TO SHATTER
+          </div>
+      )}
     </>
   );
 }
