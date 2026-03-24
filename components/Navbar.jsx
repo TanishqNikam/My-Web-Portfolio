@@ -21,6 +21,34 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [bruteForceMode, setBruteForceMode] = useState(false);
     const [crackProgress, setCrackProgress] = useState([]);
+    const [glitchCount, setGlitchCount] = useState(0);
+
+    const handleLogoClick = (e) => {
+        const newCount = glitchCount + 1;
+        if (newCount >= 3) {
+            // Prevent normal link navigation on rapid tap
+            e.preventDefault();
+            setGlitchCount(0);
+            
+            // Trigger raw DOM glitch effect globally for absolute maximum visual impact
+            document.body.style.transition = 'none';
+            
+            const stutter = setInterval(() => {
+                document.body.style.transform = `skewX(${Math.random() * 10 - 5}deg) scale(${1 + Math.random() * 0.02})`;
+                document.body.style.filter = `contrast(300%) invert(10%) drop-shadow(${Math.random() * 20 - 10}px 0 0 rgba(0,255,255,0.8)) drop-shadow(${Math.random() * 20 - 10}px 0 0 rgba(255,0,0,0.8))`;
+            }, 40);
+
+            setTimeout(() => {
+                clearInterval(stutter);
+                document.body.style.filter = '';
+                document.body.style.transform = '';
+            }, 800);
+        } else {
+            setGlitchCount(newCount);
+            // Reset counter after 1 second if they don't fulfill the combo
+            setTimeout(() => setGlitchCount(0), 1000);
+        }
+    };
 
     const startBruteForce = () => {
         setBruteForceMode(true);
@@ -65,7 +93,11 @@ export default function Navbar() {
             <div className="container mx-auto px-4 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 text-primary hover:text-white transition-colors mr-8">
+                    <Link 
+                        href="/" 
+                        onClick={handleLogoClick}
+                        className="flex items-center gap-2 text-primary hover:text-white transition-colors mr-8 select-none"
+                    >
                         <Shield className="w-6 h-6" />
                         <span className="font-bold text-lg tracking-wider">TN</span>
                     </Link>

@@ -9,6 +9,9 @@ export default function TerminalPage() {
         { type: "system", content: "Type 'help' for a list of available commands." }
     ]);
     const [input, setInput] = useState("");
+    const [gameMode, setGameMode] = useState(false);
+    const [targetPort, setTargetPort] = useState(0);
+    const [attempts, setAttempts] = useState(0);
     const inputRef = useRef(null);
     const bottomRef = useRef(null);
 
@@ -23,6 +26,48 @@ export default function TerminalPage() {
             const cmd = input.trim().toLowerCase();
             const newHistory = [...history, { type: "user", content: `guest@tn-soc:~$ ${input}` }];
             
+            if (gameMode) {
+                if (cmd === "exit" || cmd === "quit" || cmd === "abort") {
+                    setGameMode(false);
+                    newHistory.push({ type: "system", content: "Hack aborted. Connection closed." });
+                } else {
+                    const guess = parseInt(cmd);
+                    if (isNaN(guess)) {
+                        newHistory.push({ type: "system", content: "Invalid port format. Enter a 3-digit number (or 'abort')." });
+                    } else {
+                        const newAttempts = attempts + 1;
+                        setAttempts(newAttempts);
+                        
+                        if (guess === targetPort) {
+                            newHistory.push({ type: "system", content: `[✔] PORT ${guess} OPEN. FIREWALL BREACHED.` });
+                            newHistory.push({ type: "system", content: "ACCESS GRANTED. The cyber landscape is yours." });
+                            newHistory.push({ type: "system", content: `
+    .---.
+  /     \\
+  \\.@-@./      Congratulations!
+  /     \\      You successfully
+ //  "  \\\\     hacked the mainframe.
+| \\     / |
+ \\_\\_=_/_/
+` });
+                            setGameMode(false);
+                        } else if (newAttempts >= 5) {
+                            newHistory.push({ type: "system", content: `[!] Intrusion detected. Connection severed. The port was ${targetPort}.` });
+                            setGameMode(false);
+                        } else {
+                            if (guess < targetPort) {
+                                newHistory.push({ type: "system", content: `[-] Port ${guess} closed. TARGET PORT IS HIGHER. (${5 - newAttempts} attempts left)` });
+                            } else {
+                                newHistory.push({ type: "system", content: `[-] Port ${guess} closed. TARGET PORT IS LOWER. (${5 - newAttempts} attempts left)` });
+                            }
+                        }
+                    }
+                }
+                setHistory(newHistory);
+                setInput("");
+                return;
+            }
+
             if (cmd === "") {
                 setHistory(newHistory);
             } else if (cmd === "help") {
@@ -33,6 +78,7 @@ export default function TerminalPage() {
                 newHistory.push({ type: "system", content: "  clear\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0- Clear the terminal screen" });
                 newHistory.push({ type: "system", content: "  sudo <cmd>\u00A0\u00A0- Execute command as superuser" });
                 newHistory.push({ type: "system", content: "  sudo hire\u00A0\u00A0\u00A0- [CLASSIFIED] Initiate recruitment protocol" });
+                newHistory.push({ type: "system", content: "  hack\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0- [GAME] Attempt to bypass the firewall" });
                 newHistory.push({ type: "system", content: "  rm -rf /\u00A0\u00A0\u00A0\u00A0- [WARNING] Initiate self-destruct sequence" });
                 setHistory(newHistory);
             } else if (cmd === "whoami") {
@@ -73,12 +119,20 @@ export default function TerminalPage() {
             } else if (cmd.startsWith("sudo")) {
                 newHistory.push({ type: "system", content: "guest is not in the sudoers file. This incident will be reported." });
                 setHistory(newHistory);
+            } else if (cmd === "hack") {
+                const port = Math.floor(Math.random() * 900) + 100; // 100-999
+                setTargetPort(port);
+                setAttempts(0);
+                setGameMode(true);
+                newHistory.push({ type: "system", content: "CRITICAL: Firewall detected. Initiating port scanner..." });
+                newHistory.push({ type: "system", content: "Target port is between 100 and 999." });
+                newHistory.push({ type: "system", content: "You have 5 attempts to guess the open port before lockout." });
+                newHistory.push({ type: "system", content: "Enter your 3-digit guess (or 'abort'):" });
+                setHistory(newHistory);
             } else if (cmd === "rm -rf /") {
                 newHistory.push({ type: "system", content: "CRITICAL: Self-destruct sequence initiated by user." });
                 newHistory.push({ type: "system", content: "Goodbye." });
                 setHistory(newHistory);
-                // The global document listener in EasterEggs.js will catch the 'rm-rf/' typing 
-                // and trigger the actual animation, so we just print a localized warning here.
             } else {
                 newHistory.push({ type: "system", content: `bash: ${cmd}: command not found` });
             }

@@ -1,6 +1,7 @@
 import ProjectCard from "@/components/ProjectCard";
 import { getAllContent } from "@/lib/content";
 import { FolderGit2 } from "lucide-react";
+import RansomwareButton from "@/components/RansomwareButton";
 
 export const metadata = {
     title: "Projects | T.NIKAM SOC Portfolio",
@@ -52,6 +53,8 @@ export default async function ProjectsPage() {
                     <p>No projects found. Check back soon.</p>
                 </div>
             )}
+            
+            <RansomwareButton />
         </div>
     );
 }
