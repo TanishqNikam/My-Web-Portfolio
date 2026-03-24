@@ -31,7 +31,8 @@ export default function TerminalPage() {
                 newHistory.push({ type: "system", content: "  ls          - List directory contents" });
                 newHistory.push({ type: "system", content: "  cat <file>  - Read the contents of a file" });
                 newHistory.push({ type: "system", content: "  clear       - Clear the terminal screen" });
-                newHistory.push({ type: "system", content: "  sudo        - Execute command as superuser" });
+                newHistory.push({ type: "system", content: "  sudo <cmd>  - Execute command as superuser" });
+                newHistory.push({ type: "system", content: "  sudo hire   - [CLASSIFIED] Initiate recruitment protocol" });
                 setHistory(newHistory);
             } else if (cmd === "whoami") {
                 newHistory.push({ type: "system", content: "user: guest" });
@@ -62,6 +63,12 @@ export default function TerminalPage() {
                 setHistory(newHistory);
             } else if (cmd === "clear") {
                 setHistory([]);
+            } else if (cmd === "sudo hire" || cmd === "sudo hire tanishq") {
+                newHistory.push({ type: "system", content: "Authentication override accepted." });
+                newHistory.push({ type: "system", content: "Initiating priority engagement sequence..." });
+                newHistory.push({ type: "system", content: "[✔] Deploying Confetti Payload" });
+                newHistory.push({ type: "system", content: "[✔] Establishing direct access bridge (resume.pdf)" });
+                setHistory(newHistory);
             } else if (cmd.startsWith("sudo")) {
                 newHistory.push({ type: "system", content: "guest is not in the sudoers file. This incident will be reported." });
                 setHistory(newHistory);

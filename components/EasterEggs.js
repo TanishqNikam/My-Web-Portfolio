@@ -52,13 +52,15 @@ export default function EasterEggs() {
           confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
         }, 250);
 
-        // Download Resume
-        const link = document.createElement('a');
-        link.href = '/resume.pdf';
-        link.download = 'Tanishq_Nikam_Resume.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Download Resume after letting the confetti play for 2.5 seconds
+        setTimeout(() => {
+          const link = document.createElement('a');
+          link.href = '/resume.pdf';
+          link.download = 'Tanishq_Nikam_Resume.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }, 2500);
 
         typedStr = ""; // Reset
       }
