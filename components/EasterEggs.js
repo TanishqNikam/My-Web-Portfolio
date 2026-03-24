@@ -18,6 +18,8 @@ export default function EasterEggs() {
   const [matrixMode, setMatrixMode] = useState(false);
   const [honeypotState, setHoneypotState] = useState("idle"); // idle | alert | joke
   const [kernelPanic, setKernelPanic] = useState(false);
+  const [c2Mode, setC2Mode] = useState(false);
+  const [c2Logs, setC2Logs] = useState([]);
 
   // 0. Sudo Hire Easter Egg
   useEffect(() => {
@@ -123,6 +125,42 @@ export default function EasterEggs() {
     window.addEventListener("keydown", handleGlobalTyping);
     return () => window.removeEventListener("keydown", handleGlobalTyping);
   }, []);
+
+  // 0.75 C2 Backdoor Dashboard (Alt + C)
+  useEffect(() => {
+    const handleC2 = (e) => {
+      // altKey maps to 'Option' on Mac and 'Alt' on Windows
+      // On Mac keyboards, pressing Option + c actually types 'ç' (cedilla) 
+      // instead of 'c', so we check for e.code or 'ç'.
+      if (e.altKey && (e.key.toLowerCase() === 'c' || e.key === 'ç' || e.code === 'KeyC')) {
+        e.preventDefault();
+        setC2Mode(prev => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleC2);
+    return () => window.removeEventListener("keydown", handleC2);
+  }, []);
+
+  useEffect(() => {
+    if(!c2Mode) return;
+    
+    const fakeIps = ["192.168.1.105", "10.0.0.42", "172.16.254.1", "45.33.32.156", "104.28.14.88", "167.99.14.2", "8.8.8.8", "127.0.0.1"];
+    const actions = ["CONNECTION ESTABLISHED", "PAYLOAD DELIVERED", "EXTRACTING HASHES", "BYPASSING WAF", "PRIVILEGE ESCALATION", "ROOTKIT INSTALLED", "DATA EXFILTRATION IN PROGRESS", "PROXY CHAIN CONNECTED"];
+    
+    // Initial boot sequence log
+    setC2Logs(["[SYSTEM] C2 Framework Initialized. Listening for reverse shells..."]);
+    
+    const interval = setInterval(() => {
+        const time = new Date().toISOString().split("T")[1].slice(0,-1);
+        const ip = fakeIps[Math.floor(Math.random()*fakeIps.length)];
+        const action = actions[Math.floor(Math.random()*actions.length)];
+        const newLog = `[${time}] [+] ${ip} - ${action}`;
+        
+        setC2Logs(prev => [newLog, ...prev].slice(0, 40));
+    }, 450); // fast stream of logs
+
+    return () => clearInterval(interval);
+  }, [c2Mode]);
 
   // 1. Console Log Secret
   useEffect(() => {
@@ -273,6 +311,92 @@ export default function EasterEggs() {
               </button>
             </motion.div>
          )}
+      </AnimatePresence>
+
+      {/* C2 Backdoor UI (Alt + C) */}
+      <AnimatePresence>
+        {c2Mode && (
+          <motion.div
+            initial={{ rotateY: 90, opacity: 0 }}
+            animate={{ rotateY: 0, opacity: 1 }}
+            exit={{ rotateY: -90, opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="fixed inset-0 z-[20000] bg-[#050505] text-[#00ff41] font-mono p-4 md:p-8 flex flex-col overflow-hidden"
+            style={{ perspective: "1500px" }}
+          >
+            {/* Scanlines Overlay */}
+            <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgba(0,0,0,0.15),rgba(0,0,0,0.15)_1px,transparent_1px,transparent_2px)] pointer-events-none z-10" />
+            
+            {/* C2 Header */}
+            <div className="relative z-20 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-[#00ff41]/30 pb-4 mb-6">
+              <div>
+                <h1 className="text-xl md:text-3xl font-bold tracking-widest text-[#00ff41] flex items-center gap-3">
+                  <Terminal className="w-6 h-6 md:w-8 md:h-8" />
+                  TN-SOC COMMAND & CONTROL (C2)
+                </h1>
+                <p className="text-[#00ff41]/70 text-xs md:text-sm mt-1">GLOBAL BOTNET MAP | AUTHORIZED PERSONNEL ONLY</p>
+              </div>
+              <button 
+                onClick={() => setC2Mode(false)} 
+                className="mt-4 md:mt-0 px-4 py-2 border border-[#00ff41] hover:bg-[#00ff41] hover:text-black transition-colors font-bold tracking-widest text-xs md:text-sm"
+              >
+                DISCONNECT (ALT+C)
+              </button>
+            </div>
+
+            {/* Dashboards */}
+            <div className="relative z-20 flex-grow flex flex-col md:flex-row gap-6 md:gap-8 overflow-hidden">
+              
+              {/* Left Log Stream */}
+              <div className="w-full md:w-1/2 h-1/2 md:h-full flex flex-col border border-[#00ff41]/20 bg-[#00ff41]/5 p-2 md:p-4 rounded overflow-hidden">
+                <div className="border-b border-[#00ff41]/20 pb-2 mb-2 font-bold flex justify-between text-xs md:text-base">
+                  <span>LIVE TARGET FEED</span>
+                  <span className="animate-pulse flex items-center gap-2 text-red-500">
+                    <div className="w-2 h-2 bg-red-500 rounded-full shadow-[0_0_5px_red]"></div>
+                    RECORDING
+                  </span>
+                </div>
+                <div className="flex-grow overflow-y-auto flex flex-col justify-start text-[9px] md:text-xs xl:text-sm space-y-1 custom-scrollbar pr-2">
+                  {c2Logs.map((log, i) => (
+                    <div key={i} className={`opacity-90 ${i === 0 ? "text-white font-bold" : ""}`}>
+                      {log}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Radar */}
+              <div className="w-full md:w-1/2 h-1/2 md:h-full flex flex-col items-center justify-center border border-[#00ff41]/20 bg-[#00ff41]/5 rounded relative overflow-hidden p-4">
+                <div className="absolute top-4 left-4 font-bold text-xs md:text-sm tracking-widest text-[#00ff41]/70">GEOLOCATION RADAR</div>
+                
+                {/* The Radar Circle */}
+                <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-[350px] md:h-[350px] lg:w-[450px] lg:h-[450px] border border-[#00ff41]/40 rounded-full flex items-center justify-center bg-[radial-gradient(circle,rgba(0,255,65,0.05)_0%,transparent_70%)] mt-4">
+                  
+                  {/* Rotating Sweeper */}
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                    className="absolute inset-0 rounded-full"
+                    style={{ background: "conic-gradient(from 0deg, transparent 50%, rgba(0,255,65,0.3) 100%)" }}
+                  />
+                  
+                  {/* Grid rings */}
+                  <div className="absolute w-full h-[1px] bg-[#00ff41]/20"></div>
+                  <div className="absolute h-full w-[1px] bg-[#00ff41]/20"></div>
+                  <div className="absolute w-1/3 h-1/3 border border-[#00ff41]/30 rounded-full"></div>
+                  <div className="absolute w-2/3 h-2/3 border border-[#00ff41]/30 rounded-full"></div>
+                  
+                  {/* Simulated Blinking Targets */}
+                  <motion.div animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="absolute w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full top-[30%] left-[60%] shadow-[0_0_10px_red]" />
+                  <motion.div animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 3.5, delay: 0.5 }} className="absolute w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full bottom-[25%] left-[30%] shadow-[0_0_10px_red]" />
+                  <motion.div animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1.8, delay: 1 }} className="absolute w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full top-[60%] right-[20%] shadow-[0_0_10px_red]" />
+                  <motion.div animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 4.1, delay: 0.2 }} className="absolute w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full top-[20%] left-[20%] shadow-[0_0_10px_red]" />
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
     </>
   );

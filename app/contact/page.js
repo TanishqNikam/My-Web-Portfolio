@@ -1,11 +1,13 @@
 "use client";
 
-import { Mail, Linkedin, Github, MessageSquare, Send } from "lucide-react";
+import { Mail, Linkedin, Github, MessageSquare, Send, ShieldAlert } from "lucide-react";
 import TerminalCard from "@/components/TerminalCard";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ContactPage() {
     const [status, setStatus] = useState("");
+    const [showPhishingAlert, setShowPhishingAlert] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -92,6 +94,17 @@ export default function ContactPage() {
                                     <p className="text-muted text-sm">github.com/tanishqnikam</p>
                                 </div>
                             </a>
+
+                            <a
+                                href="#confidential"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setShowPhishingAlert(true);
+                                }}
+                                className="text-[10px] text-muted/30 hover:text-red-500 font-mono text-center mt-2 transition-colors cursor-crosshair"
+                            >
+                                [ Download Confidential_Contract_Details.pdf ]
+                            </a>
                         </div>
                     </TerminalCard>
                 </div>
@@ -172,6 +185,42 @@ export default function ContactPage() {
                     </TerminalCard>
                 </div>
             </div>
+
+            {/* Phishing Alert Modal */}
+            <AnimatePresence>
+                {showPhishingAlert && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+                    >
+                        <motion.div 
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            className="bg-[#0a0a0a] border border-red-500 p-8 max-w-lg w-full rounded flex flex-col items-center text-center shadow-[0_0_30px_rgba(239,68,68,0.15)]"
+                        >
+                            <ShieldAlert className="w-16 h-16 text-red-500 mb-6" />
+                            <h2 className="text-xl md:text-2xl font-mono font-bold text-red-500 mb-4 tracking-wider uppercase">Suspicious Activity Detected</h2>
+                            <div className="bg-red-500/5 border border-red-500/20 p-4 rounded mb-6 text-left w-full">
+                                <p className="text-muted font-mono text-sm md:text-base leading-relaxed mb-4">
+                                    <span className="text-red-400 font-bold block mb-1">Security Analysis:</span>
+                                    You just fell for a simulated phishing trap! In a real-world scenario, clicking unverified links promising "Confidential Data" or "Urgent Contracts" is the leading cause of initial access for threat actors.
+                                </p>
+                                <p className="text-muted font-mono text-sm md:text-base leading-relaxed">
+                                    Always verify the source and hover to inspect URLs before clicking. Stay vigilant out there. 🛡️
+                                </p>
+                            </div>
+                            <button 
+                                onClick={() => setShowPhishingAlert(false)}
+                                className="px-6 py-3 bg-red-500/10 border border-red-500 text-red-500 font-mono font-bold rounded hover:bg-red-500 hover:text-black transition-colors w-full tracking-widest text-sm"
+                            >
+                                I UNDERSTAND. RETURN TO SAFETY.
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
