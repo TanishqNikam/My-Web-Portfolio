@@ -2,6 +2,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BootLoader from "@/components/BootLoader";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const inter = Inter({
@@ -17,8 +18,30 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "Tanishq Nikam | SOC Analyst Portfolio",
-  description: "Cybersecurity portfolio, SOC dashboard, and technical reports.",
+  title: "Tanishq Nikam | SOC Analyst",
+  description: "Cybersecurity portfolio, SOC dashboard, and technical reports by Tanishq Nikam.",
+  keywords: ["SOC Analyst", "Cybersecurity", "Information Security", "Portfolio", "Tanishq Nikam", "Threat Hunting", "Incident Response"],
+  openGraph: {
+    title: "Tanishq Nikam | SOC Analyst",
+    description: "Cybersecurity portfolio, SOC dashboard, and technical reports.",
+    siteName: "Tanishq Nikam Portfolio",
+    images: [
+      {
+        url: "/avatar.png",
+        width: 800,
+        height: 800,
+        alt: "Tanishq Nikam",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tanishq Nikam | SOC Analyst",
+    description: "Cybersecurity portfolio, SOC dashboard, and technical reports.",
+    images: ["/avatar.png"],
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -33,6 +56,7 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
