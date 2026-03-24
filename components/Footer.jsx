@@ -8,8 +8,11 @@ export default function Footer() {
                     <Terminal className="w-4 h-4 text-secondary" />
                     <span>System running smoothly.</span>
                 </div>
-                <div>
+                <div className="flex flex-col md:items-end items-center mt-4 md:mt-0">
                     <p>&copy; {new Date().getFullYear()} Tanishq Nikam. All rights reserved.</p>
+                    <p className="text-[10px] text-[#333] mt-2 select-none font-mono tracking-widest hidden md:block" aria-hidden="true" title="What could this mean?">
+                        [ seq: ↑ ↑ ↓ ↓ ← → ← → B A ]
+                    </p>
                 </div>
             </div>
         </footer>
