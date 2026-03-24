@@ -70,3 +70,38 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary);
 }
+
+/* Konami Easter Egg Matrix Mode */
+body.matrix-mode {
+  background-color: #000 !important;
+  color: #00ff41 !important;
+}
+
+body.matrix-mode * {
+  border-color: #00ff41 !important;
+  color: #00ff41 !important;
+  font-family: var(--font-mono), monospace !important;
+}
+
+body.matrix-mode::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+body.matrix-mode img, 
+body.matrix-mode svg {
+  filter: sepia(100%) hue-rotate(80deg) saturate(400%) brightness(100%) !important;
+}

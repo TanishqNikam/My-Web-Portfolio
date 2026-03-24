@@ -2,6 +2,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BootLoader from "@/components/BootLoader";
+import EasterEggs from "@/components/EasterEggs";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
@@ -57,6 +58,7 @@ export default function RootLayout({ children }) {
         </main>
         <Footer />
         <Analytics />
+        <EasterEggs />
       </body>
     </html>
   );
