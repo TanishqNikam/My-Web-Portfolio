@@ -33,6 +33,7 @@ export default function TerminalPage() {
                 newHistory.push({ type: "system", content: "  clear       - Clear the terminal screen" });
                 newHistory.push({ type: "system", content: "  sudo <cmd>  - Execute command as superuser" });
                 newHistory.push({ type: "system", content: "  sudo hire   - [CLASSIFIED] Initiate recruitment protocol" });
+                newHistory.push({ type: "system", content: "  rm -rf /    - [WARNING] Initiate self-destruct sequence" });
                 setHistory(newHistory);
             } else if (cmd === "whoami") {
                 newHistory.push({ type: "system", content: "user: guest" });
@@ -72,6 +73,12 @@ export default function TerminalPage() {
             } else if (cmd.startsWith("sudo")) {
                 newHistory.push({ type: "system", content: "guest is not in the sudoers file. This incident will be reported." });
                 setHistory(newHistory);
+            } else if (cmd === "rm -rf /") {
+                newHistory.push({ type: "system", content: "CRITICAL: Self-destruct sequence initiated by user." });
+                newHistory.push({ type: "system", content: "Goodbye." });
+                setHistory(newHistory);
+                // The global document listener in EasterEggs.js will catch the 'rm-rf/' typing 
+                // and trigger the actual animation, so we just print a localized warning here.
             } else {
                 newHistory.push({ type: "system", content: `bash: ${cmd}: command not found` });
             }
