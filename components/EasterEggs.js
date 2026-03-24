@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldAlert, Terminal } from "lucide-react";
+import confetti from "canvas-confetti";
 
 const KONAMI_CODE = [
   "ArrowUp", "ArrowUp",
@@ -16,6 +17,56 @@ export default function EasterEggs() {
   const [konamiIndex, setKonamiIndex] = useState(0);
   const [matrixMode, setMatrixMode] = useState(false);
   const [honeypotState, setHoneypotState] = useState("idle"); // idle | alert | joke
+
+  // 0. Sudo Hire Easter Egg
+  useEffect(() => {
+    let typedStr = "";
+    const targetStr = "sudohiretanishq"; // Target without spaces
+
+    const handleGlobalTyping = (e) => {
+      if (e.key.length !== 1) return; // Ignore functional keys
+      
+      const char = e.key.toLowerCase();
+      if (char !== " ") {
+        typedStr += char;
+      }
+      
+      if (typedStr.length > targetStr.length) {
+        typedStr = typedStr.slice(-targetStr.length);
+      }
+
+      if (typedStr === targetStr) {
+        // Trigger Confetti
+        const duration = 3 * 1000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+        const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+        const interval = setInterval(function() {
+          const timeLeft = animationEnd - Date.now();
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+          const particleCount = 50 * (timeLeft / duration);
+          confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+          confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+        }, 250);
+
+        // Download Resume
+        const link = document.createElement('a');
+        link.href = '/resume.pdf';
+        link.download = 'Tanishq_Nikam_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        typedStr = ""; // Reset
+      }
+    };
+
+    window.addEventListener("keydown", handleGlobalTyping);
+    return () => window.removeEventListener("keydown", handleGlobalTyping);
+  }, []);
 
   // 1. Console Log Secret
   useEffect(() => {
