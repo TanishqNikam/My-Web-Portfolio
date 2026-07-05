@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Shield, Menu, X, Download, Moon, Zap } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -25,6 +25,20 @@ export default function Navbar() {
 
     const [isBroken, setIsBroken] = useState(false);
     const [showToast, setShowToast] = useState(false);
+    const [logoHint, setLogoHint] = useState(false);
+
+    useEffect(() => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        // Fires once, after the boot sequence has finished, as a subtle
+        // tell that the logo is interactive.
+        const triggerTimeout = setTimeout(() => {
+            setLogoHint(true);
+            setTimeout(() => setLogoHint(false), 350);
+        }, 4500);
+
+        return () => clearTimeout(triggerTimeout);
+    }, []);
 
     const handleLightModeClick = (e) => {
         e.preventDefault();
@@ -106,10 +120,13 @@ export default function Navbar() {
                 <div className="container mx-auto px-4 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
-                    <Link 
-                        href="/" 
+                    <Link
+                        href="/"
                         onClick={handleLogoClick}
-                        className="flex items-center gap-2 text-primary hover:text-white transition-colors mr-8 select-none"
+                        className={cn(
+                            "flex items-center gap-2 text-primary hover:text-white transition-colors mr-8 select-none",
+                            logoHint && "logo-hint-glitch"
+                        )}
                     >
                         <Shield className="w-6 h-6" />
                         <span className="font-bold text-lg tracking-wider">TN</span>

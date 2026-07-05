@@ -106,6 +106,36 @@ body.matrix-mode svg {
   filter: sepia(100%) hue-rotate(80deg) saturate(400%) brightness(100%) !important;
 }
 
+/* Subtle one-time flicker on the navbar logo — a barely-noticeable
+   tell hinting at the triple-click glitch easter egg, without spelling
+   it out. */
+@keyframes logo-hint-glitch {
+  0% {
+    transform: translate(0);
+    filter: none;
+  }
+  20% {
+    transform: translate(-1.5px, 1px);
+    filter: contrast(140%) hue-rotate(8deg);
+  }
+  45% {
+    transform: translate(1.5px, -1px);
+    filter: contrast(115%) hue-rotate(-8deg);
+  }
+  70% {
+    transform: translate(-1px, 0);
+    filter: none;
+  }
+  100% {
+    transform: translate(0);
+    filter: none;
+  }
+}
+
+.logo-hint-glitch {
+  animation: logo-hint-glitch 0.35s ease-in-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
