@@ -1,4 +1,5 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BootLoader from "@/components/BootLoader";
@@ -19,6 +20,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://tanishqnikam.vercel.app"),
   title: "Tanishq Nikam | SOC Analyst",
   description: "Cybersecurity portfolio, SOC dashboard, and technical reports by Tanishq Nikam.",
   keywords: ["SOC Analyst", "Cybersecurity", "Information Security", "Portfolio", "Tanishq Nikam", "Threat Hunting", "Incident Response"],
@@ -51,14 +53,16 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <BootLoader />
-        <Navbar />
-        <main className="flex-grow flex flex-col relative z-0">
-          {children}
-        </main>
-        <Footer />
-        <Analytics />
-        <EasterEggs />
+        <MotionConfig reducedMotion="user">
+          <BootLoader />
+          <Navbar />
+          <main className="flex-grow flex flex-col relative z-0">
+            {children}
+          </main>
+          <Footer />
+          <Analytics />
+          <EasterEggs />
+        </MotionConfig>
       </body>
     </html>
   );
