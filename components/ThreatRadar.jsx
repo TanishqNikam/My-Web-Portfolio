@@ -211,8 +211,12 @@ export default function ThreatRadar() {
             ctx.stroke();
         };
 
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         const animate = () => {
-            animationFrameId = requestAnimationFrame(animate);
+            if (!prefersReducedMotion) {
+                animationFrameId = requestAnimationFrame(animate);
+            }
             // using subtle fill instead of clearRect creates a trailing motion blur effect for the nodes
             ctx.fillStyle = 'rgba(10, 10, 10, 0.3)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -228,6 +232,11 @@ export default function ThreatRadar() {
         };
 
         resizeCanvas();
+        // Render a single static frame instead of a continuous loop when the user prefers reduced motion
+        if (prefersReducedMotion) {
+            ctx.fillStyle = 'rgba(10, 10, 10, 1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
         animate();
 
         return () => {

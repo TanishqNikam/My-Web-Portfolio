@@ -18,8 +18,23 @@ export default function TypingHeader() {
     const [displayText, setDisplayText] = useState("");
     const [titleIndex, setTitleIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [reducedMotion, setReducedMotion] = useState(false);
 
     useEffect(() => {
+        const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+        setReducedMotion(query.matches);
+
+        const handleChange = (e) => setReducedMotion(e.matches);
+        query.addEventListener("change", handleChange);
+        return () => query.removeEventListener("change", handleChange);
+    }, []);
+
+    useEffect(() => {
+        if (reducedMotion) {
+            setDisplayText(titles[0]);
+            return;
+        }
+
         let timeout;
         const currentTitle = titles[titleIndex];
 
@@ -47,7 +62,7 @@ export default function TypingHeader() {
         }
 
         return () => clearTimeout(timeout);
-    }, [displayText, isDeleting, titleIndex]);
+    }, [displayText, isDeleting, titleIndex, reducedMotion]);
 
     return (
         <motion.div

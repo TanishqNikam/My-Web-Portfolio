@@ -101,7 +101,18 @@ body.matrix-mode::after {
   z-index: 9998;
 }
 
-body.matrix-mode img, 
+body.matrix-mode img,
 body.matrix-mode svg {
   filter: sepia(100%) hue-rotate(80deg) saturate(400%) brightness(100%) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
