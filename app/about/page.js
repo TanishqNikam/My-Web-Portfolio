@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import TerminalCard from "@/components/TerminalCard";
 import {
@@ -139,12 +140,14 @@ export default function AboutPage() {
                 <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-6 md:gap-8">
                     {/* Avatar */}
                     <div className="shrink-0">
-                        <div className="w-28 h-28 md:w-36 md:h-36 rounded-lg overflow-hidden border-2 border-[#00f0ff]/40 shadow-[0_0_24px_rgba(0,240,255,0.15)] shrink-0">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
+                        <div className="w-28 h-28 md:w-36 md:h-36 rounded-lg overflow-hidden border-2 border-[#00f0ff]/40 shadow-[0_0_24px_rgba(0,240,255,0.15)] shrink-0 relative">
+                            <Image
                                 src="/avatar.png"
                                 alt="Tanishq Nikam"
-                                className="w-full h-full object-cover object-top"
+                                fill
+                                priority
+                                sizes="(min-width: 768px) 144px, 112px"
+                                className="object-cover object-top"
                             />
                         </div>
                         {/* Live indicator */}
@@ -171,20 +174,20 @@ export default function AboutPage() {
 
                         {/* Location + links */}
                         <div className="flex items-center justify-center sm:justify-start gap-4 mt-3 flex-wrap">
-                            <span className="flex items-center gap-1 text-[#666] text-xs font-mono">
+                            <span className="flex items-center gap-1 text-[#999] text-xs font-mono">
                                 <MapPin className="w-3 h-3" /> Pune, Maharashtra
                             </span>
                             <Link
                                 href="https://linkedin.com/in/tanishqnikam"
                                 target="_blank"
-                                className="flex items-center gap-1 text-[#666] hover:text-[#00f0ff] text-xs font-mono transition-colors"
+                                className="flex items-center gap-1 text-[#999] hover:text-[#00f0ff] text-xs font-mono transition-colors"
                             >
                                 <Linkedin className="w-3 h-3" /> LinkedIn
                             </Link>
                             <Link
                                 href="https://github.com/TanishqNikam"
                                 target="_blank"
-                                className="flex items-center gap-1 text-[#666] hover:text-[#00f0ff] text-xs font-mono transition-colors"
+                                className="flex items-center gap-1 text-[#999] hover:text-[#00f0ff] text-xs font-mono transition-colors"
                             >
                                 <Github className="w-3 h-3" /> GitHub
                             </Link>
@@ -232,7 +235,7 @@ export default function AboutPage() {
                         className="bg-[#0d0d0d] px-5 py-4 text-center hover:bg-[#111] transition-colors"
                     >
                         <p className="text-2xl font-bold font-mono text-[#00f0ff]">{s.value}</p>
-                        <p className="text-[#666] text-[11px] font-mono mt-0.5 uppercase tracking-wider">{s.label}</p>
+                        <p className="text-[#999] text-[11px] font-mono mt-0.5 uppercase tracking-wider">{s.label}</p>
                     </div>
                 ))}
             </motion.div>
@@ -244,7 +247,7 @@ export default function AboutPage() {
 
                 {/* ── Timeline (left, 2/3) ── */}
                 <div className="lg:col-span-2">
-                    <h2 className="text-xs font-mono uppercase tracking-widest text-[#555] mb-6 flex items-center gap-2">
+                    <h2 className="text-xs font-mono uppercase tracking-widest text-[#999] mb-6 flex items-center gap-2">
                         <span className="w-4 h-px bg-[#00f0ff] inline-block" />
                         Experience &amp; Journey
                     </h2>
@@ -306,7 +309,7 @@ export default function AboutPage() {
                                         </div>
 
                                         {/* Date */}
-                                        <div className="flex items-center gap-1.5 text-[#444] text-[11px] font-mono mt-2 mb-3">
+                                        <div className="flex items-center gap-1.5 text-[#999] text-[11px] font-mono mt-2 mb-3">
                                             <CalendarDays className="w-3 h-3" />
                                             {item.date}
                                         </div>
@@ -315,7 +318,7 @@ export default function AboutPage() {
                                         {item.points.length > 0 && (
                                             <ul className="flex flex-col gap-1.5 border-t border-[#1c1c1c] pt-3">
                                                 {item.points.map((p) => (
-                                                    <li key={p} className="text-[#777] text-xs flex items-start gap-2 leading-relaxed">
+                                                    <li key={p} className="text-[#999] text-xs flex items-start gap-2 leading-relaxed">
                                                         <ChevronRight className="w-3 h-3 shrink-0 mt-0.5 text-[#333]" />
                                                         {p}
                                                     </li>
@@ -377,7 +380,7 @@ export default function AboutPage() {
                         transition={{ duration: 0.4, delay: 0.4 }}
                         className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-lg p-4 flex flex-col gap-3"
                     >
-                        <p className="text-[#555] text-xs font-mono border-l-2 border-[#00f0ff] pl-3 leading-relaxed">
+                        <p className="text-[#999] text-xs font-mono border-l-2 border-[#00f0ff] pl-3 leading-relaxed">
                             &quot;Offense informs defense. Understanding the attacker is the first step to stopping them.&quot;
                         </p>
 

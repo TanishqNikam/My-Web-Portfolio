@@ -15,8 +15,8 @@ export default async function ProjectsPage() {
         <div className="container mx-auto px-4 lg:px-8 py-12">
             {/* Page Header */}
             <div className="mb-10 border-b border-[#2a2a2a] pb-6">
-                <h1 className="text-3xl font-bold font-mono text-white flex items-center gap-3">
-                    <FolderGit2 className="w-8 h-8 text-secondary" />
+                <h1 className="text-2xl sm:text-3xl font-bold font-mono text-white flex items-center gap-3 break-words">
+                    <FolderGit2 className="w-8 h-8 text-secondary shrink-0" />
                     ACTIVE_PROJECTS
                 </h1>
                 <p className="text-muted mt-2 font-mono text-sm max-w-2xl">

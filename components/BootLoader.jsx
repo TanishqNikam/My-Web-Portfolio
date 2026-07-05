@@ -91,7 +91,7 @@ export default function BootLoader() {
             </div>
 
             {/* Progress Text */}
-            <div className="flex justify-between text-[11px] text-[#555] tracking-widest mt-1">
+            <div className="flex justify-between text-[11px] text-[#999] tracking-widest mt-1">
               <span>SYSTEM.BOOT</span>
               <span>{Math.min(progress, 100)}%</span>
             </div>
