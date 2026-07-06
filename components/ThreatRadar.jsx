@@ -213,9 +213,15 @@ export default function ThreatRadar() {
 
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+        // Tracks whether the canvas is currently scrolled into view, so the
+        // animation loop doesn't burn CPU/battery drawing frames nobody sees.
+        let isVisible = true;
+
         const animate = () => {
-            if (!prefersReducedMotion) {
+            if (!prefersReducedMotion && isVisible) {
                 animationFrameId = requestAnimationFrame(animate);
+            } else {
+                animationFrameId = null;
             }
             // using subtle fill instead of clearRect creates a trailing motion blur effect for the nodes
             ctx.fillStyle = 'rgba(10, 10, 10, 0.3)';
@@ -231,6 +237,15 @@ export default function ThreatRadar() {
             }
         };
 
+        const observer = new IntersectionObserver(([entry]) => {
+            isVisible = entry.isIntersecting;
+            // Resume the loop if it had stopped while off-screen
+            if (isVisible && !prefersReducedMotion && animationFrameId == null) {
+                animate();
+            }
+        });
+        observer.observe(canvas);
+
         resizeCanvas();
         // Render a single static frame instead of a continuous loop when the user prefers reduced motion
         if (prefersReducedMotion) {
@@ -243,7 +258,8 @@ export default function ThreatRadar() {
             window.removeEventListener('resize', resizeCanvas);
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseout', handleMouseOut);
-            cancelAnimationFrame(animationFrameId);
+            observer.disconnect();
+            if (animationFrameId != null) cancelAnimationFrame(animationFrameId);
         };
     }, []);
 
