@@ -402,15 +402,27 @@ export default function AboutPage() {
                         <TerminalCard title="TryHackMe Stats" icon={Activity}>
                             {/* The badge widget's real content is ~90px tall; the rest of its
                                 260px canvas is empty iframe background plus a stray loading
-                                bar that doesn't match our theme, so we clip to just the card. */}
-                            <div className="w-full overflow-hidden rounded h-[100px]">
+                                bar that doesn't match our theme, so we clip to just the card.
+                                Since it's a cross-origin embed we can't detect whether it
+                                actually finished rendering, so a permanent fallback link sits
+                                below it in case the widget itself gets stuck. */}
+                            <div className="w-full overflow-hidden rounded h-[100px] bg-[#0a0a0a]">
                                 <iframe
                                     src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=5640810"
                                     style={{ border: "none" }}
                                     className="w-full h-[260px]"
                                     title="TryHackMe Badge"
+                                    loading="lazy"
                                 />
                             </div>
+                            <a
+                                href="https://tryhackme.com/p/itanishqnikam"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="mt-2 flex items-center justify-center gap-1.5 text-[10px] font-mono text-muted hover:text-primary transition-colors"
+                            >
+                                <ExternalLink className="w-3 h-3" /> View full profile on TryHackMe
+                            </a>
                         </TerminalCard>
                     </motion.div>
 
