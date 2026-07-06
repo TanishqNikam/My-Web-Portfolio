@@ -12,25 +12,40 @@ import {
 
 // ─── Stats ────────────────────────────────────────────────────────────────────
 const stats = [
-    { value: "1+",     label: "Year at Bosch" },
-    { value: "6",      label: "Roles Held" },
-    { value: "800+",   label: "Event Attendees" },
-    { value: "4",      label: "Certifications" },
+    { value: "2",      label: "Roles at Bosch" },
+    { value: "8",      label: "Roles Held" },
+    { value: "1400+",  label: "Event Attendees" },
+    { value: "5",      label: "Certifications" },
 ];
 
 // ─── Unified Timeline (newest first) ─────────────────────────────────────────
 const timeline = [
     {
-        date: "Jan 2026 – Present",
-        title: "Cyber Security & Automation Analyst",
+        date: "Starting Sep 2026",
+        title: "Incoming Graduate Apprentice — Cybersecurity",
         org: "Bosch",
-        current: true,
+        upcoming: true,
+        color: "#facc15",
+        type: "Work",
+        icon: Briefcase,
+        points: [
+            "Selected for a full-time Graduate Apprentice role in the cybersecurity function, confirmed via official offer communication.",
+            "Exact responsibilities to be confirmed closer to the start date.",
+        ],
+    },
+    {
+        date: "Jan 2026 – Mar 2026",
+        title: "Security and Automation Engineering Intern",
+        org: "Bosch",
+        current: false,
         color: "#00f0ff",
         type: "Work",
         icon: Briefcase,
         points: [
-            "Cybersecurity operations and automation workflows in a global enterprise environment.",
-            "Building detection pipelines and secure automation tooling.",
+            "Independently developed an internal training management application to digitize a 3-phase operator onboarding workflow, eliminating projected third-party development costs of ~₹1,00,000.",
+            "Designed and implemented an IAM Joiner Automation workflow enforcing role-based access control (RBAC) for secure employee onboarding and access provisioning.",
+            "Developed a Python-based automation script to validate employee attributes and enforce role-based access assignment, improving access control accuracy and reducing manual provisioning effort by ~25%.",
+            "Identified and resolved multiple workflow inconsistencies during testing, improving application reliability and reducing issue recurrence prior to deployment.",
         ],
     },
     {
@@ -43,6 +58,19 @@ const timeline = [
         icon: Users,
         points: [
             "Oversaw full production and technical execution for the TEDx event.",
+        ],
+    },
+    {
+        date: "2025",
+        title: "Lead Organizer",
+        org: "GDGoC WOW Pune 2025",
+        current: false,
+        color: "#f472b6",
+        type: "Community",
+        icon: Users,
+        points: [
+            "Led organization of Pune's largest multi-college student tech conference — a 1400+ attendee, two-day event.",
+            "Coordinated 30+ colleges and 100+ volunteers across the event.",
         ],
     },
     {
@@ -67,6 +95,7 @@ const timeline = [
         icon: Users,
         points: [
             "Led city-wide Google Developer Student Clubs events across Pune campuses.",
+            "Managed and scaled a 600+ student tech community through workshops, hackathons, and study jams in 2025.",
         ],
     },
     {
@@ -99,25 +128,26 @@ const timeline = [
     {
         date: "2024",
         title: "Security Foundations",
-        org: "Google Cert · Cisco NetAcad · TryHackMe SOC L1",
+        org: "Google Cert · TryHackMe Pre-Security · Job Simulations",
         current: false,
         color: "#fb923c",
         type: "Learning",
         icon: BookOpen,
         points: [
-            "Google Cybersecurity Certificate & Cisco Networking Basics.",
-            "TryHackMe SOC Level 1 — detection engineering & blue team labs.",
-            "TCP/IP, Linux system administration, scripting fundamentals.",
+            "Google Cybersecurity Professional Certificate — Foundations of Security, Risk Management, Network Security.",
+            "TryHackMe Pre-Security — foundational security and networking fundamentals.",
+            "Completed job simulations with Deloitte Australia, Mastercard, and Tata — cybersecurity analyst scenarios and virtual experience programs.",
         ],
     },
 ];
 
 // ─── Credentials ──────────────────────────────────────────────────────────────
 const credentials = [
-    { name: "CompTIA Security+", status: "In Progress", color: "#facc15" },
-    { name: "Google CySec Cert", status: "Verified ✓",  color: "#00ff41" },
-    { name: "Cisco Networking",  status: "Verified ✓",  color: "#00ff41" },
-    { name: "TryHackMe SOC L1", status: "Verified ✓",  color: "#00ff41" },
+    { name: "Google Cybersecurity Professional Cert", status: "Verified ✓", color: "#00ff41" },
+    { name: "TryHackMe Pre-Security",                 status: "Verified ✓", color: "#00ff41" },
+    { name: "Deloitte Australia Cyber Job Simulation", status: "Verified ✓", color: "#00ff41" },
+    { name: "Mastercard Cybersecurity Virtual Exp.",   status: "Verified ✓", color: "#00ff41" },
+    { name: "Tata Security Analyst Job Simulation",    status: "Verified ✓", color: "#00ff41" },
 ];
 
 export default function AboutPage() {
@@ -166,10 +196,10 @@ export default function AboutPage() {
 
                         {/* Role */}
                         <p className="text-[#00f0ff] font-mono text-sm md:text-base mt-1 mb-0.5">
-                            Cyber Security &amp; Automation Analyst
+                            Incoming Graduate Apprentice @ Bosch
                         </p>
                         <p className="text-[#888] font-mono text-xs md:text-sm">
-                            @ Bosch · Pune, India
+                            Cybersecurity · Pune, India
                         </p>
 
                         {/* Location + links */}
@@ -195,9 +225,10 @@ export default function AboutPage() {
 
                         {/* Bio */}
                         <p className="text-[#aaa] text-sm leading-relaxed mt-4 max-w-xl">
-                            Currently building detection pipelines and automation tooling at Bosch.
-                            Deepening expertise in threat detection, SIEM engineering, and log analysis —
-                            actively pursuing CompTIA Security+ to formalise that foundation.
+                            Completed a cybersecurity and automation internship at Bosch, building detection
+                            pipelines and secure onboarding automation. Set to rejoin Bosch as a Graduate
+                            Apprentice in September 2026, continuing to build hands-on experience in threat
+                            detection, SIEM engineering, and security automation.
                         </p>
 
                         {/* CTA buttons */}
@@ -270,7 +301,7 @@ export default function AboutPage() {
                                         className="absolute left-0 top-[3px] w-[19px] h-[19px] rounded-full border-2 bg-[#0a0a0a] z-10 transition-transform duration-200 group-hover:scale-110 flex items-center justify-center"
                                         style={{ borderColor: item.color }}
                                     >
-                                        {item.current && (
+                                        {(item.current || item.upcoming) && (
                                             <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: item.color }} />
                                         )}
                                     </div>
@@ -297,6 +328,14 @@ export default function AboutPage() {
                                                         style={{ color: item.color, borderColor: `${item.color}50`, backgroundColor: `${item.color}10` }}
                                                     >
                                                         ● NOW
+                                                    </span>
+                                                )}
+                                                {item.upcoming && (
+                                                    <span
+                                                        className="text-[10px] font-mono px-2 py-0.5 rounded border animate-pulse"
+                                                        style={{ color: item.color, borderColor: `${item.color}50`, backgroundColor: `${item.color}10` }}
+                                                    >
+                                                        ● STARTING SOON
                                                     </span>
                                                 )}
                                                 <span
