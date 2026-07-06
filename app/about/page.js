@@ -12,10 +12,10 @@ import {
 
 // ─── Stats ────────────────────────────────────────────────────────────────────
 const stats = [
-    { value: "2",      label: "Roles at Bosch" },
-    { value: "8",      label: "Roles Held" },
-    { value: "1400+",  label: "Event Attendees" },
-    { value: "5",      label: "Certifications" },
+    { value: "5",   label: "Certifications" },
+    { value: "3",   label: "Security Projects" },
+    { value: "45+", label: "Labs Completed" },
+    { value: "15+", label: "Tools Mastered" },
 ];
 
 // ─── Unified Timeline (newest first) ─────────────────────────────────────────
@@ -29,8 +29,7 @@ const timeline = [
         type: "Work",
         icon: Briefcase,
         points: [
-            "Selected for a full-time Graduate Apprentice role in the cybersecurity function, confirmed via official offer communication.",
-            "Exact responsibilities to be confirmed closer to the start date.",
+            "Selected for a full-time Graduate Apprentice role in the cybersecurity function.",
         ],
     },
     {
@@ -401,7 +400,10 @@ export default function AboutPage() {
                         transition={{ duration: 0.4, delay: 0.3 }}
                     >
                         <TerminalCard title="TryHackMe Stats" icon={Activity}>
-                            <div className="w-full overflow-hidden rounded">
+                            {/* The badge widget's real content is ~90px tall; the rest of its
+                                260px canvas is empty iframe background plus a stray loading
+                                bar that doesn't match our theme, so we clip to just the card. */}
+                            <div className="w-full overflow-hidden rounded h-[100px]">
                                 <iframe
                                     src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=5640810"
                                     style={{ border: "none" }}
