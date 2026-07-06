@@ -158,8 +158,8 @@ export default function Navbar() {
                             )}
                         </button>
                         <a 
-                            href="/resume.pdf" 
-                            download 
+                            href="/resume.pdf"
+                            download="Tanishq_Nikam_Resume.pdf"
                             onClick={handleResumeClick}
                             title="Hold Shift to simulate a Brute Force attack"
                             className="flex items-center gap-2 text-xs uppercase border border-[#2a2a2a] px-3 py-1.5 rounded hover:bg-[#111111] hover:border-primary text-primary transition-all whitespace-nowrap cursor-pointer"
@@ -201,9 +201,9 @@ export default function Navbar() {
                                     {link.label}
                                 </Link>
                             ))}
-                            <a 
-                                href="/resume.pdf" 
-                                download 
+                            <a
+                                href="/resume.pdf"
+                                download="Tanishq_Nikam_Resume.pdf"
                                 onClick={handleResumeClick}
                                 className="flex items-center gap-2 text-sm uppercase p-2 text-primary border-l-2 border-transparent hover:border-primary transition-all cursor-pointer"
                             >

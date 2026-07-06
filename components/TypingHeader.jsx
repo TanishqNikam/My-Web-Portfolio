@@ -8,7 +8,7 @@ const DELETING_SPEED = 50;
 const PAUSE_TIME = 2000;
 
 const titles = [
-    "SOC Analyst in Training",
+    "Cybersecurity Analyst in Training",
     "Analytical Thinker",
     "Security-Focused",
     "Community Builder"

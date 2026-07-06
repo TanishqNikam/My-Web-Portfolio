@@ -235,7 +235,7 @@ export default function AboutPage() {
                         <div className="flex items-center justify-center sm:justify-start gap-3 mt-5 flex-wrap">
                             <Link
                                 href="/resume.pdf"
-                                target="_blank"
+                                download="Tanishq_Nikam_Resume.pdf"
                                 className="flex items-center gap-2 px-4 py-2 bg-[#00f0ff] text-black text-xs font-bold font-mono rounded-sm hover:bg-[#00d4e0] transition-colors"
                             >
                                 <ExternalLink className="w-3 h-3" /> RESUME

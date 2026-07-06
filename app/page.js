@@ -37,7 +37,7 @@ export default async function Home() {
 
             <a
               href="/resume.pdf"
-              download
+              download="Tanishq_Nikam_Resume.pdf"
               className="group flex items-center gap-2 border border-[#2a2a2a] px-6 py-3 rounded-sm hover:border-white transition-colors text-muted hover:text-white"
             >
               <Download className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
