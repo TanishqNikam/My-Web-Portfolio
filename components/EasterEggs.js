@@ -384,7 +384,7 @@ export default function EasterEggs() {
               <div>
                 <h1 className="text-xl md:text-3xl font-bold tracking-widest text-[#00ff41] flex items-center gap-3">
                   <Terminal className="w-6 h-6 md:w-8 md:h-8" />
-                  TN-SOC COMMAND & CONTROL (C2)
+                  TN-CYB COMMAND & CONTROL (C2)
                 </h1>
                 <p className="text-[#00ff41]/70 text-xs md:text-sm mt-1">GLOBAL BOTNET MAP | AUTHORIZED PERSONNEL ONLY</p>
               </div>

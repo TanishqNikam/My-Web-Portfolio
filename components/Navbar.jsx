@@ -79,7 +79,7 @@ export default function Navbar() {
     const startBruteForce = () => {
         setBruteForceMode(true);
         setIsOpen(false);
-        setCrackProgress(["[+] INITIALIZING HYDRA v9.4", "[+] TARGET: TN-SOC_RESUME_ENCRYPTED.pdf", "[+] LOADING WORDLIST... [rockyou.txt]"]);
+        setCrackProgress(["[+] INITIALIZING HYDRA v9.4", "[+] TARGET: TN-CYB_RESUME_ENCRYPTED.pdf", "[+] LOADING WORDLIST... [rockyou.txt]"]);
         
         let attempts = 0;
         const interval = setInterval(() => {
@@ -236,7 +236,7 @@ export default function Navbar() {
                     >
                         <div className="bg-[#050505] border border-primary/50 w-full max-w-2xl h-[400px] sm:h-[500px] flex flex-col rounded shadow-[0_0_50px_rgba(0,240,255,0.15)] font-mono">
                             <div className="bg-[#111] p-3 border-b border-primary/30 flex justify-between text-xs md:text-sm text-primary">
-                                <span>tn-soc@hydration-server:~</span>
+                                <span>tn-cyb@hydration-server:~</span>
                                 <span className="animate-pulse">BRUTE_FORCE_ACTIVE</span>
                             </div>
                             <div className="flex-grow p-4 md:p-6 overflow-hidden flex flex-col justify-end space-y-1.5 text-[10px] sm:text-xs md:text-sm">
@@ -265,7 +265,7 @@ export default function Navbar() {
                                 <Shield className="w-4 h-4" /> Security Violation
                             </div>
                             <div className="text-muted text-[10px] md:text-xs leading-relaxed mt-1">
-                                TN-SOC strictly enforces Dark Mode.<br/>
+                                TN-CYB strictly enforces Dark Mode.<br/>
                                 <span className="text-white font-bold tracking-wide">Light mode is a security risk.</span>
                             </div>
                         </div>

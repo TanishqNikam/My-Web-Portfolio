@@ -5,7 +5,7 @@ import { Terminal as TerminalIcon } from "lucide-react";
 
 export default function TerminalPage() {
     const [history, setHistory] = useState([
-        { type: "system", content: "Welcome to TN-SOC Terminal OS v2.0." },
+        { type: "system", content: "Welcome to TN-CYB Terminal OS v2.0." },
         { type: "system", content: "Type 'help' for a list of available commands." }
     ]);
     const [input, setInput] = useState("");
@@ -24,7 +24,7 @@ export default function TerminalPage() {
     const handleCommand = (e) => {
         if (e.key === "Enter") {
             const cmd = input.trim().toLowerCase();
-            const newHistory = [...history, { type: "user", content: `guest@tn-soc:~$ ${input}` }];
+            const newHistory = [...history, { type: "user", content: `guest@tn-cyb:~$ ${input}` }];
             
             if (gameMode) {
                 if (cmd === "exit" || cmd === "quit" || cmd === "abort") {
@@ -149,7 +149,7 @@ export default function TerminalPage() {
                     INTERACTIVE TERMINAL
                 </h1>
                 <p className="text-[#888] mt-1 font-mono text-xs">
-                    Direct access to the TN-SOC mainframe. Use &apos;help&apos; to see available commands.
+                    Direct access to the TN-CYB mainframe. Use &apos;help&apos; to see available commands.
                 </p>
             </div>
 
@@ -168,7 +168,7 @@ export default function TerminalPage() {
                     ))}
                     
                     <div className="flex items-center mt-2 text-white">
-                        <span className="text-[#00ff41] mr-2 shrink-0">guest@tn-soc:~$</span>
+                        <span className="text-[#00ff41] mr-2 shrink-0">guest@tn-cyb:~$</span>
                         <input
                             ref={inputRef}
                             type="text"
