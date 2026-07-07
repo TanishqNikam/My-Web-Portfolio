@@ -1,7 +1,7 @@
 export default function manifest() {
     return {
-        name: "Tanishq Nikam | SOC Analyst Portfolio",
-        short_name: "TN-SOC",
+        name: "Tanishq Nikam | Cybersecurity Portfolio",
+        short_name: "Tanishq Nikam",
         description: "Cybersecurity portfolio, SOC dashboard, and technical reports by Tanishq Nikam.",
         start_url: "/",
         display: "standalone",

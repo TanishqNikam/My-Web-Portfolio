@@ -21,11 +21,11 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata = {
   metadataBase: new URL("https://tanishqnikam.vercel.app"),
-  title: "Tanishq Nikam | SOC Analyst",
+  title: "Tanishq Nikam | Cybersecurity Portfolio",
   description: "Cybersecurity portfolio, SOC dashboard, and technical reports by Tanishq Nikam.",
-  keywords: ["SOC Analyst", "Cybersecurity", "Information Security", "Portfolio", "Tanishq Nikam", "Threat Hunting", "Incident Response"],
+  keywords: ["Cybersecurity", "Information Security", "Portfolio", "Tanishq Nikam", "Threat Hunting", "Incident Response"],
   openGraph: {
-    title: "Tanishq Nikam | SOC Analyst",
+    title: "Tanishq Nikam | Cybersecurity Portfolio",
     description: "Cybersecurity portfolio, SOC dashboard, and technical reports.",
     siteName: "Tanishq Nikam Portfolio",
     images: [
@@ -41,7 +41,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tanishq Nikam | SOC Analyst",
+    title: "Tanishq Nikam | Cybersecurity Portfolio",
     description: "Cybersecurity portfolio, SOC dashboard, and technical reports.",
     images: ["/avatar.png"],
   },
