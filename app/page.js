@@ -8,6 +8,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { getAllContent } from "@/lib/content";
 import TypingHeader from "@/components/TypingHeader";
+import HeroSocials from "@/components/HeroSocials";
 
 export default async function Home() {
   const logs = await getAllContent('logs');
@@ -26,6 +27,8 @@ export default async function Home() {
             threat hunting, incident response, and understanding attacker tradecraft.
             Always learning, always securing.
           </p>
+
+          <HeroSocials />
 
           <div className="flex flex-wrap items-center gap-4 mt-8">
             <Link
