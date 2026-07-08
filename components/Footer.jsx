@@ -1,4 +1,7 @@
 import { Terminal, Github, Linkedin, Mail } from "lucide-react";
+import Image from "next/image";
+
+const brandIconUrl = (slug) => `https://cdn.simpleicons.org/${slug}/00f0ff`;
 
 export default function Footer() {
     return (
@@ -17,6 +20,28 @@ export default function Footer() {
                     <a href="https://linkedin.com/in/tanishq-nikam" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-[#00f0ff] transition-all hover:-translate-y-1">
                         <Linkedin className="w-5 h-5" />
                         <span className="sr-only">LinkedIn</span>
+                    </a>
+                    <a href="https://medium.com/@itanishqnikam" target="_blank" rel="noopener noreferrer" className="group text-muted hover:text-[#00f0ff] transition-all hover:-translate-y-1">
+                        <Image
+                            src={brandIconUrl("medium")}
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="w-5 h-5 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+                            unoptimized
+                        />
+                        <span className="sr-only">Medium</span>
+                    </a>
+                    <a href="https://tryhackme.com/p/itanishqnikam" target="_blank" rel="noopener noreferrer" className="group text-muted hover:text-[#00f0ff] transition-all hover:-translate-y-1">
+                        <Image
+                            src={brandIconUrl("tryhackme")}
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="w-5 h-5 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+                            unoptimized
+                        />
+                        <span className="sr-only">TryHackMe</span>
                     </a>
                     <a href="mailto:tanishqnikam11@gmail.com" className="text-muted hover:text-secondary transition-all hover:-translate-y-1">
                         <Mail className="w-5 h-5" />
