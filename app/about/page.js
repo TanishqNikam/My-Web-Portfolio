@@ -1,12 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import TerminalCard from "@/components/TerminalCard";
 import {
     MapPin, Linkedin, Github, Briefcase, Users,
-    Cpu, BookOpen, CalendarDays, Award, Activity,
+    Cpu, CalendarDays, Award, Activity,
     ExternalLink, ChevronRight,
 } from "lucide-react";
 
@@ -68,8 +69,9 @@ const timeline = [
         type: "Community",
         icon: Users,
         points: [
-            "Led organization of Pune's largest multi-college student tech conference — a 1400+ attendee, two-day event.",
-            "Coordinated 30+ colleges and 100+ volunteers across the event.",
+            "Led organization of GDGoC WOW Pune 2025, a two-day, 1000+ attendee tech conference (Apr 19–20) drawing 25+ colleges.",
+            "Directed a core team of 10+ co-organizers and 80+ volunteers through 4 months of planning, speaker coordination, and event-day execution.",
+            "Progressed from event volunteer at the 2024 edition to lead organizer of the 2025 edition, driving end-to-end strategy and cross-college coordination.",
         ],
     },
     {
@@ -81,35 +83,22 @@ const timeline = [
         type: "Community",
         icon: Users,
         points: [
-            "Organized technical workshops, speaker sessions, and community events for the campus GDG chapter.",
-        ],
-    },
-    {
-        date: "Sep 2024 – May 2025",
-        title: "Lead Organizer",
-        org: "GDSC Pune",
-        current: false,
-        color: "#00ff41",
-        type: "Community",
-        icon: Users,
-        points: [
-            "Led city-wide Google Developer Student Clubs events across Pune campuses.",
-            "Managed and scaled a 600+ student tech community through workshops, hackathons, and study jams in 2025.",
+            "Organized technical workshops, speaker sessions, and community events for the campus GDGoC chapter.",
         ],
     },
     {
         date: "Apr 2024",
         title: "Event Management Member",
-        org: "GDSC WoW Event",
+        org: "GDSC WOW Pune 2024 Event",
         current: false,
         color: "#facc15",
         type: "Community",
         icon: Users,
         points: [
             "Maharashtra's largest student-led tech event.",
-            "Generated ₹70,000+ in individual ticket sales.",
-            "Managed crowd operations for 800+ attendees.",
-            "Handled event design, planning, and execution.",
+            "Spearheaded individual ticket sales, generating ₹70,000+ in revenue.",
+            "Led crowd management operations for 800+ attendees, ensuring safety and a smooth on-ground experience.",
+            "Contributed to event design and planning through weeks of dedicated team preparation.",
         ],
     },
     {
@@ -124,20 +113,12 @@ const timeline = [
             "Managed programming department, learning initiatives, and inter-college competitions.",
         ],
     },
-    {
-        date: "2024",
-        title: "Security Foundations",
-        org: "Google Cert · TryHackMe Pre-Security · Job Simulations",
-        current: false,
-        color: "#fb923c",
-        type: "Learning",
-        icon: BookOpen,
-        points: [
-            "Google Cybersecurity Professional Certificate — Foundations of Security, Risk Management, Network Security.",
-            "TryHackMe Pre-Security — foundational security and networking fundamentals.",
-            "Completed job simulations with Deloitte Australia, Mastercard, and Tata — cybersecurity analyst scenarios and virtual experience programs.",
-        ],
-    },
+];
+
+// ─── Timeline tabs ────────────────────────────────────────────────────────────
+const TABS = [
+    { id: "work", label: "Work", match: (item) => item.type === "Work" },
+    { id: "extracurricular", label: "Extracurricular", match: (item) => item.type !== "Work" },
 ];
 
 // ─── Credentials ──────────────────────────────────────────────────────────────
@@ -150,6 +131,10 @@ const credentials = [
 ];
 
 export default function AboutPage() {
+    const [activeTab, setActiveTab] = useState("work");
+    const activeTabConfig = TABS.find((t) => t.id === activeTab);
+    const visibleTimeline = timeline.filter(activeTabConfig.match);
+
     return (
         <div className="container mx-auto px-4 lg:px-8 py-12 max-w-6xl">
 
@@ -282,17 +267,48 @@ export default function AboutPage() {
                         Experience &amp; Journey
                     </h2>
 
+                    {/* Tab switcher */}
+                    <div className="flex items-center gap-2 mb-6">
+                        {TABS.map((tab) => {
+                            const count = timeline.filter(tab.match).length;
+                            const isActive = tab.id === activeTab;
+                            return (
+                                <button
+                                    key={tab.id}
+                                    type="button"
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`px-3 py-1.5 rounded-sm text-xs font-mono uppercase tracking-widest border transition-colors ${
+                                        isActive
+                                            ? "bg-[#00f0ff] text-black border-[#00f0ff]"
+                                            : "text-[#999] border-[#2a2a2a] hover:border-[#00f0ff]/40 hover:text-[#00f0ff]"
+                                    }`}
+                                >
+                                    {tab.label} <span className="opacity-70">({count})</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
                     <div className="relative">
                         {/* Vertical rule */}
                         <div className="absolute left-[9px] top-2 bottom-2 w-px bg-gradient-to-b from-[#00f0ff] via-[#2a2a2a] to-transparent" />
 
                         <div className="flex flex-col">
-                            {timeline.map((item, idx) => (
+                          <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeTab}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="flex flex-col"
+                            >
+                            {visibleTimeline.map((item, idx) => (
                                 <motion.div
                                     key={`${item.org}-${item.date}`}
                                     initial={{ opacity: 0, x: -12 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.2 + idx * 0.07, duration: 0.4 }}
+                                    transition={{ delay: idx * 0.07, duration: 0.4 }}
                                     className="relative pl-9 pb-7 group"
                                 >
                                     {/* Dot */}
@@ -366,6 +382,8 @@ export default function AboutPage() {
                                     </div>
                                 </motion.div>
                             ))}
+                            </motion.div>
+                          </AnimatePresence>
                         </div>
                     </div>
                 </div>
