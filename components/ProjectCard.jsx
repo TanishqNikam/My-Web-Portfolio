@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Github, ArrowUpRight, Tag, CheckCircle, Loader, Server } from "lucide-react";
+import { Github, CheckCircle, Loader, Server } from "lucide-react";
 
 const statusConfig = {
     "Complete": { color: "text-green-500 border-green-500/30 bg-green-500/10", icon: CheckCircle },
@@ -51,6 +50,7 @@ export default function ProjectCard({ project, featured = false }) {
                             rel="noopener noreferrer"
                             className="shrink-0 w-9 h-9 flex items-center justify-center border border-[#2a2a2a] rounded-sm hover:border-primary hover:text-primary text-muted transition-all"
                             title="View on GitHub"
+                            aria-label="View on GitHub"
                         >
                             <Github className="w-4 h-4" />
                         </a>

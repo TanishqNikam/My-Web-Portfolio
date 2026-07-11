@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Terminal, Calendar, AlertTriangle, ShieldAlert } from "lucide-react";
+import { Terminal, Calendar, ShieldAlert } from "lucide-react";
 
 export default function InvestigationCard({ investigation }) {
     // Determine severity color

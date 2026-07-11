@@ -28,14 +28,6 @@ export const metadata = {
     title: "Tanishq Nikam | Cybersecurity Portfolio",
     description: "Cybersecurity portfolio, SOC dashboard, and technical reports.",
     siteName: "Tanishq Nikam Portfolio",
-    images: [
-      {
-        url: "/avatar.png",
-        width: 800,
-        height: 800,
-        alt: "Tanishq Nikam",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -43,7 +35,6 @@ export const metadata = {
     card: "summary_large_image",
     title: "Tanishq Nikam | Cybersecurity Portfolio",
     description: "Cybersecurity portfolio, SOC dashboard, and technical reports.",
-    images: ["/avatar.png"],
   },
 };
 

@@ -1,5 +1,6 @@
 import { Terminal, Github, Linkedin, Mail } from "lucide-react";
 import Image from "next/image";
+import CopyrightYear from "@/components/CopyrightYear";
 
 const brandIconUrl = (slug) => `https://cdn.simpleicons.org/${slug}/00f0ff`;
 
@@ -17,7 +18,7 @@ export default function Footer() {
                         <Github className="w-5 h-5" />
                         <span className="sr-only">GitHub</span>
                     </a>
-                    <a href="https://linkedin.com/in/tanishq-nikam" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-[#00f0ff] transition-all hover:-translate-y-1">
+                    <a href="https://linkedin.com/in/tanishqnikam" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-[#00f0ff] transition-all hover:-translate-y-1">
                         <Linkedin className="w-5 h-5" />
                         <span className="sr-only">LinkedIn</span>
                     </a>
@@ -50,7 +51,7 @@ export default function Footer() {
                 </div>
 
                 <div className="flex flex-col md:items-end items-center mt-4 md:mt-0">
-                    <p>&copy; {new Date().getFullYear()} Tanishq Nikam. All rights reserved.</p>
+                    <p>&copy; <CopyrightYear /> Tanishq Nikam. All rights reserved.</p>
                     <p className="text-[10px] text-[#333] mt-2 select-none font-mono tracking-widest hidden md:block" aria-hidden="true" title="What could this mean?">
                         [ seq: ↑ ↑ ↓ ↓ ← → ← → B A ]
                     </p>

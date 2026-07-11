@@ -4,7 +4,7 @@ import { FolderGit2 } from "lucide-react";
 import RansomwareButton from "@/components/RansomwareButton";
 
 export const metadata = {
-    title: "Projects | T.NIKAM SOC Portfolio",
+    title: "Projects | T.NIKAM Cybersecurity Portfolio",
     description: "Hands-on cybersecurity projects, scripts, and home lab setups.",
 };
 

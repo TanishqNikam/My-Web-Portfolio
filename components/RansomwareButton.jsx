@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Skull } from "lucide-react";
 
@@ -8,16 +8,21 @@ export default function RansomwareButton() {
     const [isTriggered, setIsTriggered] = useState(false);
     const [progress, setProgress] = useState(0);
     const [done, setDone] = useState(false);
+    const intervalRef = useRef(null);
+
+    useEffect(() => {
+        return () => clearInterval(intervalRef.current);
+    }, []);
 
     const trigger = () => {
         setIsTriggered(true);
         setProgress(0);
         setDone(false);
-        const interval = setInterval(() => {
+        intervalRef.current = setInterval(() => {
             setProgress(p => {
                 const next = p + Math.floor(Math.random() * 15) + 5;
                 if (next >= 100) {
-                    clearInterval(interval);
+                    clearInterval(intervalRef.current);
                     setDone(true);
                     return 100;
                 }

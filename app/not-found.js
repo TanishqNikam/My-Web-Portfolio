@@ -1,6 +1,11 @@
 import Link from 'next/link';
 import { ShieldAlert, ArrowLeft, Terminal } from 'lucide-react';
 
+export const metadata = {
+  title: "404 — Page Not Found | Tanishq Nikam",
+  description: "The requested page does not exist.",
+};
+
 export default function NotFound() {
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-4">

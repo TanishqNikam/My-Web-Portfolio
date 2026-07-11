@@ -1,9 +1,8 @@
-import { ChevronRight, Download, ShieldAlert, Cpu, Activity, Network } from "lucide-react";
+import { ChevronRight, Download } from "lucide-react";
 import ThreatRadar from "@/components/ThreatRadar";
 import ToolsMarquee from "@/components/ToolsMarquee";
 import FeaturedLog from "@/components/FeaturedLog";
 import ProjectCard from "@/components/ProjectCard";
-import StatsCard from "@/components/StatsCard";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { getAllContent } from "@/lib/content";
@@ -91,35 +90,6 @@ export default async function Home() {
           </div>
         </section>
       )}
-
-      <section className="container mx-auto px-4 lg:px-8">
-        <div className="mb-8 border-b border-[#2a2a2a] pb-4">
-          <h2 className="text-2xl font-bold font-mono text-white flex items-center gap-2">
-            <span className="text-primary">&gt;</span> SOC_METRICS
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <StatsCard
-            title="Analyst Logs"
-            value="12+"
-            label="Completed deep dives & intelligence"
-            icon={ShieldAlert}
-          />
-          <StatsCard
-            title="Labs Completed"
-            value="45+"
-            label="TryHackMe / HTB"
-            icon={Network}
-          />
-          <StatsCard
-            title="Tools Mastered"
-            value="15+"
-            label="SIEM, EDR, Network"
-            icon={Cpu}
-          />
-        </div>
-      </section>
     </div>
   );
 }

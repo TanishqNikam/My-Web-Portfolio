@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Shield, Menu, X, Download, Moon, Zap } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -26,6 +26,7 @@ export default function Navbar() {
     const [isBroken, setIsBroken] = useState(false);
     const [showToast, setShowToast] = useState(false);
     const [logoHint, setLogoHint] = useState(false);
+    const bruteForceIntervalRef = useRef(null);
 
     useEffect(() => {
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -82,14 +83,14 @@ export default function Navbar() {
         setCrackProgress(["[+] INITIALIZING HYDRA v9.4", "[+] TARGET: TN-CYB_RESUME_ENCRYPTED.pdf", "[+] LOADING WORDLIST... [rockyou.txt]"]);
         
         let attempts = 0;
-        const interval = setInterval(() => {
+        bruteForceIntervalRef.current = setInterval(() => {
             attempts++;
             const hash = Math.random().toString(36).substring(2, 12).toUpperCase();
             const pass = Math.random().toString(36).substring(2, 8);
             setCrackProgress(prev => [...prev, `[-] TESTING HASH: ${hash} (pwd: ${pass}) ... FAILED`].slice(-15));
-            
+
             if (attempts > 25) {
-                clearInterval(interval);
+                clearInterval(bruteForceIntervalRef.current);
                 setCrackProgress(prev => [...prev.slice(-14), "[!] MATCH FOUND: 'admin123'", "[+] ENCRYPTION CRACKED. DOWNLOADING PORTFOLIO..."]);
                 setTimeout(() => {
                     const link = document.createElement("a");
@@ -104,12 +105,26 @@ export default function Navbar() {
         }, 100);
     };
 
+    const closeBruteForce = () => {
+        clearInterval(bruteForceIntervalRef.current);
+        setBruteForceMode(false);
+    };
+
     const handleResumeClick = (e) => {
         if (e.shiftKey) {
             e.preventDefault();
             startBruteForce();
         }
     };
+
+    useEffect(() => {
+        if (!bruteForceMode) return;
+        const handleEscape = (e) => {
+            if (e.key === "Escape") closeBruteForce();
+        };
+        window.addEventListener("keydown", handleEscape);
+        return () => window.removeEventListener("keydown", handleEscape);
+    }, [bruteForceMode]);
 
     return (
         <>
@@ -151,6 +166,7 @@ export default function Navbar() {
                             onClick={handleLightModeClick}
                             className={`relative flex items-center justify-center w-8 h-8 rounded border border-[#2a2a2a] bg-[#0a0a0a] transition-all duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] ${isBroken ? 'rotate-[135deg] translate-y-6 translate-x-2 border-red-500/50 pointer-events-none' : 'hover:bg-[#111] hover:border-primary'}`}
                             title="Toggle Light Mode"
+                            aria-label="Toggle light mode"
                         >
                             <Moon className={`w-4 h-4 ${isBroken ? 'text-red-500' : 'text-muted hover:text-white transition-colors'}`} />
                             {isBroken && (
@@ -172,6 +188,8 @@ export default function Navbar() {
                     <button
                         className="md:hidden text-muted hover:text-white"
                         onClick={() => setIsOpen(!isOpen)}
+                        aria-label={isOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={isOpen}
                     >
                         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
@@ -235,9 +253,17 @@ export default function Navbar() {
                         style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
                     >
                         <div className="bg-[#050505] border border-primary/50 w-full max-w-2xl h-[400px] sm:h-[500px] flex flex-col rounded shadow-[0_0_50px_rgba(0,240,255,0.15)] font-mono">
-                            <div className="bg-[#111] p-3 border-b border-primary/30 flex justify-between text-xs md:text-sm text-primary">
+                            <div className="bg-[#111] p-3 border-b border-primary/30 flex justify-between items-center text-xs md:text-sm text-primary">
                                 <span>tn-cyb@hydration-server:~</span>
                                 <span className="animate-pulse">BRUTE_FORCE_ACTIVE</span>
+                                <button
+                                    type="button"
+                                    onClick={closeBruteForce}
+                                    aria-label="Close"
+                                    className="text-muted hover:text-white transition-colors ml-3"
+                                >
+                                    <X className="w-4 h-4" />
+                                </button>
                             </div>
                             <div className="flex-grow p-4 md:p-6 overflow-hidden flex flex-col justify-end space-y-1.5 text-[10px] sm:text-xs md:text-sm">
                                 {crackProgress.map((line, i) => (

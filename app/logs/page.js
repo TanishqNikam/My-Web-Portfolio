@@ -3,7 +3,7 @@ import InvestigationCard from "@/components/InvestigationCard";
 import { Shield } from "lucide-react";
 
 export const metadata = {
-    title: "Logs | T.NIKAM SOC Portfolio",
+    title: "Logs | T.NIKAM Cybersecurity Portfolio",
     description: "Detailed cybersecurity logs, incident responses, and threat reports in one place.",
 };
 

@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 
 // Sample array mapping tools to their SimpleIcons slug for dynamically grabbing SVGs

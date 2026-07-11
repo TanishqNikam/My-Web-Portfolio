@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Clock, AlertTriangle, ShieldCheck, FileText } from "lucide-react";
+import { ArrowUpRight, Clock, AlertTriangle, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function FeaturedLog({ log }) {

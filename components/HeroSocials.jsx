@@ -5,7 +5,7 @@ const brandIconUrl = (slug) => `https://cdn.simpleicons.org/${slug}/00f0ff`;
 
 const links = [
     { name: "GitHub", href: "https://github.com/TanishqNikam", icon: Github },
-    { name: "LinkedIn", href: "https://linkedin.com/in/tanishq-nikam", icon: Linkedin },
+    { name: "LinkedIn", href: "https://linkedin.com/in/tanishqnikam", icon: Linkedin },
     { name: "Medium", href: "https://medium.com/@itanishqnikam", iconSlug: "medium" },
     { name: "TryHackMe", href: "https://tryhackme.com/p/itanishqnikam", iconSlug: "tryhackme" },
 ];

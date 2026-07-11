@@ -28,13 +28,15 @@ export default function EasterEggs() {
     const targetStr = "sudohiretanishq"; // Target without spaces
 
     const handleGlobalTyping = (e) => {
+      // Ignore if inside an input or textarea
+      if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
       if (e.key.length !== 1) return; // Ignore functional keys
-      
+
       const char = e.key.toLowerCase();
       if (char !== " ") {
         typedStr += char;
       }
-      
+
       if (typedStr.length > targetStr.length) {
         typedStr = typedStr.slice(-targetStr.length);
       }
@@ -80,20 +82,22 @@ export default function EasterEggs() {
     const targetStr = "rm-rf/"; // target without spaces
 
     const handleGlobalTyping = (e) => {
+      // Ignore if inside an input or textarea
+      if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
       if (e.key.length !== 1) return;
-      
+
       const char = e.key.toLowerCase();
       if (char !== " ") {
         typedStr += char;
       }
-      
+
       if (typedStr.length > targetStr.length) {
         typedStr = typedStr.slice(-targetStr.length);
       }
 
       if (typedStr === targetStr) {
         typedStr = ""; // Reset
-        
+
         // Grab basically everything visible on the screen
         const allElements = Array.from(document.querySelectorAll('div, p, h1, h2, h3, h4, a, button, img, section, span, li, ul, form, input, textarea'))
           .filter(el => !el.closest('#kernel-panic-screen') && el.id !== 'kernel-panic-screen');
@@ -192,6 +196,19 @@ export default function EasterEggs() {
     window.addEventListener("keydown", handleGlobalTyping);
     return () => window.removeEventListener("keydown", handleGlobalTyping);
   }, []);
+
+  // Allow Escape to exit Zero-Day mode, since the click hijack below
+  // makes any on-screen "exit" button unclickable.
+  useEffect(() => {
+      if (!zeroDayMode) return;
+      const handleEscape = (e) => {
+          if (e.key !== "Escape") return;
+          document.body.style.cursor = 'auto';
+          setZeroDayMode(false);
+      };
+      window.addEventListener("keydown", handleEscape);
+      return () => window.removeEventListener("keydown", handleEscape);
+  }, [zeroDayMode]);
 
   // Handle Shatter Clicks
   useEffect(() => {
@@ -453,8 +470,9 @@ export default function EasterEggs() {
 
       {/* Zero-Day UI Warning */}
       {zeroDayMode && (
-          <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[10000] bg-red-500 text-black px-4 py-1 font-mono text-xs md:text-sm font-bold rounded animate-pulse pointer-events-none tracking-widest shadow-[0_0_20px_red]">
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[10000] bg-red-500 text-black px-4 py-1 font-mono text-xs md:text-sm font-bold rounded animate-pulse pointer-events-none tracking-widest shadow-[0_0_20px_red] text-center">
               ZERO-DAY CURSOR ACTIVE - CLICK TO SHATTER
+              <span className="block text-[10px] font-normal tracking-normal">Press ESC to restore</span>
           </div>
       )}
     </>

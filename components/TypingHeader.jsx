@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
 
 const TYPING_SPEED = 100;
@@ -14,26 +14,35 @@ const titles = [
     "Community Builder"
 ];
 
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeToReducedMotion(callback) {
+    const query = window.matchMedia(REDUCED_MOTION_QUERY);
+    query.addEventListener("change", callback);
+    return () => query.removeEventListener("change", callback);
+}
+
+function getReducedMotionSnapshot() {
+    return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+function getReducedMotionServerSnapshot() {
+    return false;
+}
+
 export default function TypingHeader() {
     const [displayText, setDisplayText] = useState("");
     const [titleIndex, setTitleIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
-    const [reducedMotion, setReducedMotion] = useState(false);
+    const reducedMotion = useSyncExternalStore(
+        subscribeToReducedMotion,
+        getReducedMotionSnapshot,
+        getReducedMotionServerSnapshot
+    );
+    const shownText = reducedMotion ? titles[0] : displayText;
 
     useEffect(() => {
-        const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-        setReducedMotion(query.matches);
-
-        const handleChange = (e) => setReducedMotion(e.matches);
-        query.addEventListener("change", handleChange);
-        return () => query.removeEventListener("change", handleChange);
-    }, []);
-
-    useEffect(() => {
-        if (reducedMotion) {
-            setDisplayText(titles[0]);
-            return;
-        }
+        if (reducedMotion) return;
 
         let timeout;
         const currentTitle = titles[titleIndex];
@@ -76,7 +85,7 @@ export default function TypingHeader() {
             </h1>
             <div className="h-8 md:h-12 flex items-center">
                 <span className="text-xl md:text-3xl font-mono text-primary font-bold">
-                    {displayText}
+                    {shownText}
                     <span className="animate-pulse">_</span>
                 </span>
             </div>

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }) {
     }
 
     return {
-        title: `${post.title} | SOC Investigations`,
+        title: `${post.title} | Investigation Log`,
         description: post.description,
     };
 }
