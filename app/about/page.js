@@ -211,8 +211,8 @@ export default function AboutPage() {
                         <p className="text-[#aaa] text-sm leading-relaxed mt-4 max-w-xl">
                             Completed a cybersecurity and automation internship at Bosch, building detection
                             pipelines and secure onboarding automation. Set to rejoin Bosch as a Graduate
-                            Apprentice in September 2026, continuing to build hands-on experience in threat
-                            detection, SIEM engineering, and security automation.
+                            Apprentice in September 2026, continuing to build hands-on experience across the
+                            cybersecurity function.
                         </p>
 
                         {/* CTA buttons */}
