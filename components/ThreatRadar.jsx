@@ -44,7 +44,12 @@ export default function ThreatRadar() {
             canvas.height = canvas.parentElement.clientHeight;
             initParticles();
         };
-        window.addEventListener('resize', resizeCanvas);
+        // Watches the actual container box instead of `window`'s resize event —
+        // mobile browsers don't fire window resize when layout settles late
+        // (web fonts swapping in, the boot overlay unmounting, etc.), which
+        // left the canvas locked at whatever size it had at mount.
+        const resizeObserver = new ResizeObserver(resizeCanvas);
+        resizeObserver.observe(canvas.parentElement);
 
         function Particle() {
             this.x = Math.random() * canvas.width;
@@ -255,7 +260,7 @@ export default function ThreatRadar() {
         animate();
 
         return () => {
-            window.removeEventListener('resize', resizeCanvas);
+            resizeObserver.disconnect();
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseout', handleMouseOut);
             observer.disconnect();
