@@ -40,8 +40,15 @@ export default function ThreatRadar() {
         canvas.addEventListener('mouseout', handleMouseOut);
 
         const resizeCanvas = () => {
-            canvas.width = canvas.parentElement.clientWidth;
-            canvas.height = canvas.parentElement.clientHeight;
+            const newWidth = canvas.parentElement.clientWidth;
+            const newHeight = canvas.parentElement.clientHeight;
+            // Assigning canvas.width/height clears its contents even when the
+            // value is unchanged, and ResizeObserver always fires once on
+            // observe() regardless of whether the size actually changed — so
+            // skip the reset unless the size is genuinely different.
+            if (canvas.width === newWidth && canvas.height === newHeight) return;
+            canvas.width = newWidth;
+            canvas.height = newHeight;
             initParticles();
         };
         // Watches the actual container box instead of `window`'s resize event —
@@ -55,7 +62,6 @@ export default function ThreatRadar() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
             this.size = Math.random() * 2 + 1;
-            this.baseSize = this.size;
             this.density = (Math.random() * 30) + 1;
             this.vx = (Math.random() - 0.5) * 0.5;
             this.vy = (Math.random() - 0.5) * 0.5;
@@ -216,14 +222,12 @@ export default function ThreatRadar() {
             ctx.stroke();
         };
 
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
         // Tracks whether the canvas is currently scrolled into view, so the
         // animation loop doesn't burn CPU/battery drawing frames nobody sees.
         let isVisible = true;
 
         const animate = () => {
-            if (!prefersReducedMotion && isVisible) {
+            if (isVisible) {
                 animationFrameId = requestAnimationFrame(animate);
             } else {
                 animationFrameId = null;
@@ -245,18 +249,13 @@ export default function ThreatRadar() {
         const observer = new IntersectionObserver(([entry]) => {
             isVisible = entry.isIntersecting;
             // Resume the loop if it had stopped while off-screen
-            if (isVisible && !prefersReducedMotion && animationFrameId == null) {
+            if (isVisible && animationFrameId == null) {
                 animate();
             }
         });
         observer.observe(canvas);
 
         resizeCanvas();
-        // Render a single static frame instead of a continuous loop when the user prefers reduced motion
-        if (prefersReducedMotion) {
-            ctx.fillStyle = 'rgba(10, 10, 10, 1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
         animate();
 
         return () => {

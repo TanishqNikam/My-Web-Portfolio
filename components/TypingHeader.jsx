@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useSyncExternalStore } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const TYPING_SPEED = 100;
@@ -14,36 +14,12 @@ const titles = [
     "Community Builder"
 ];
 
-const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
-
-function subscribeToReducedMotion(callback) {
-    const query = window.matchMedia(REDUCED_MOTION_QUERY);
-    query.addEventListener("change", callback);
-    return () => query.removeEventListener("change", callback);
-}
-
-function getReducedMotionSnapshot() {
-    return window.matchMedia(REDUCED_MOTION_QUERY).matches;
-}
-
-function getReducedMotionServerSnapshot() {
-    return false;
-}
-
 export default function TypingHeader() {
     const [displayText, setDisplayText] = useState("");
     const [titleIndex, setTitleIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
-    const reducedMotion = useSyncExternalStore(
-        subscribeToReducedMotion,
-        getReducedMotionSnapshot,
-        getReducedMotionServerSnapshot
-    );
-    const shownText = reducedMotion ? titles[0] : displayText;
 
     useEffect(() => {
-        if (reducedMotion) return;
-
         let timeout;
         const currentTitle = titles[titleIndex];
 
@@ -71,7 +47,7 @@ export default function TypingHeader() {
         }
 
         return () => clearTimeout(timeout);
-    }, [displayText, isDeleting, titleIndex, reducedMotion]);
+    }, [displayText, isDeleting, titleIndex]);
 
     return (
         <motion.div
@@ -85,7 +61,7 @@ export default function TypingHeader() {
             </h1>
             <div className="h-8 md:h-12 flex items-center">
                 <span className="text-xl md:text-3xl font-mono text-primary font-bold">
-                    {shownText}
+                    {displayText}
                     <span className="animate-pulse">_</span>
                 </span>
             </div>
