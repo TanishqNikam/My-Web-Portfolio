@@ -1,5 +1,11 @@
 # 🛡️ TN-CYB: Cybersecurity Portfolio & SOC Dashboard
 
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwind-css&logoColor=white)
+![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel&logoColor=white)
+![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-red)
+
 **Live Deployment:** [tanishqnikam.vercel.app](https://tanishqnikam.vercel.app)
 
 ![TN-CYB homepage screenshot](.github/screenshot-home.png)
@@ -117,3 +123,9 @@ Here is the complete manual of hidden features and how to trigger them:
 - LinkedIn: [linkedin.com/in/tanishqnikam](https://linkedin.com/in/tanishqnikam)
 - GitHub: [@TanishqNikam](https://github.com/TanishqNikam)
 - Email: [tanishqnikam11@gmail.com](mailto:tanishqnikam11@gmail.com)
+
+---
+
+## 📄 License
+
+All Rights Reserved. This repository is public for portfolio and demonstration purposes only — viewing or forking it does not grant permission to reuse, copy, or redistribute its contents. See [LICENSE](LICENSE) for details.
