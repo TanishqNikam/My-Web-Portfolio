@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Terminal as TerminalIcon } from "lucide-react";
+import confetti from "canvas-confetti";
 
 export default function TerminalClient() {
     const [history, setHistory] = useState([
@@ -114,8 +115,30 @@ export default function TerminalClient() {
                 newHistory.push({ type: "system", content: "Authentication override accepted." });
                 newHistory.push({ type: "system", content: "Initiating priority engagement sequence..." });
                 newHistory.push({ type: "system", content: "[✔] Deploying Confetti Payload" });
-                newHistory.push({ type: "system", content: "[✔] Establishing direct access bridge (resume.pdf)" });
+                newHistory.push({ type: "system", content: "[✔] Establishing direct access bridge (Tanishq_Nikam_Resume.pdf)" });
                 setHistory(newHistory);
+
+                const duration = 3 * 1000;
+                const animationEnd = Date.now() + duration;
+                const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+                const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+                const interval = setInterval(() => {
+                    const timeLeft = animationEnd - Date.now();
+                    if (timeLeft <= 0) return clearInterval(interval);
+                    const particleCount = 50 * (timeLeft / duration);
+                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+                }, 250);
+
+                setTimeout(() => {
+                    const link = document.createElement("a");
+                    link.href = "/resume.pdf";
+                    link.download = "Tanishq_Nikam_Resume.pdf";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, 1000);
             } else if (cmd.startsWith("sudo")) {
                 newHistory.push({ type: "system", content: "guest is not in the sudoers file. This incident will be reported." });
                 setHistory(newHistory);
