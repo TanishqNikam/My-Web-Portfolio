@@ -118,6 +118,18 @@ export default function TerminalClient() {
                 newHistory.push({ type: "system", content: "[✔] Establishing direct access bridge (Tanishq_Nikam_Resume.pdf)" });
                 setHistory(newHistory);
 
+                // Must fire synchronously within the trusted keydown handler —
+                // Safari only honors the `download` attribute's filename when
+                // .click() runs as a direct result of the user gesture. A
+                // setTimeout-deferred click loses that trust and Safari falls
+                // back to naming the file from the URL instead.
+                const link = document.createElement("a");
+                link.href = "/resume.pdf";
+                link.download = "Tanishq_Nikam_Resume.pdf";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
                 const duration = 3 * 1000;
                 const animationEnd = Date.now() + duration;
                 const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
@@ -130,15 +142,6 @@ export default function TerminalClient() {
                     confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
                     confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
                 }, 250);
-
-                setTimeout(() => {
-                    const link = document.createElement("a");
-                    link.href = "/resume.pdf";
-                    link.download = "Tanishq_Nikam_Resume.pdf";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }, 1000);
             } else if (cmd.startsWith("sudo")) {
                 newHistory.push({ type: "system", content: "guest is not in the sudoers file. This incident will be reported." });
                 setHistory(newHistory);

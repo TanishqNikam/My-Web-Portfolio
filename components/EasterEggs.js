@@ -42,6 +42,17 @@ export default function EasterEggs() {
       }
 
       if (typedStr === targetStr) {
+        // Trigger the download synchronously, as a direct result of this
+        // trusted keydown event — Safari only honors the `download`
+        // attribute's filename for a same-tick click. A setTimeout-deferred
+        // click loses that trust and Safari falls back to the URL's name.
+        const link = document.createElement('a');
+        link.href = '/resume.pdf';
+        link.download = 'Tanishq_Nikam_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
         // Trigger Confetti
         const duration = 3 * 1000;
         const animationEnd = Date.now() + duration;
@@ -57,16 +68,6 @@ export default function EasterEggs() {
           confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
           confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
         }, 250);
-
-        // Download Resume after letting the confetti play for 2.5 seconds
-        setTimeout(() => {
-          const link = document.createElement('a');
-          link.href = '/resume.pdf';
-          link.download = 'Tanishq_Nikam_Resume.pdf';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }, 2500);
 
         typedStr = ""; // Reset
       }

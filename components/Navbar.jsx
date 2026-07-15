@@ -78,10 +78,22 @@ export default function Navbar() {
     };
 
     const startBruteForce = () => {
+        // Must fire synchronously within the trusted click handler — Safari
+        // only honors the `download` attribute's filename for a same-tick
+        // click. Deferring this into the setInterval/setTimeout sequence
+        // below loses that trust and Safari falls back to the URL's name.
+        // The fake "cracking" animation still plays out independently below.
+        const link = document.createElement("a");
+        link.href = "/resume.pdf";
+        link.download = "Tanishq_Nikam_Resume.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
         setBruteForceMode(true);
         setIsOpen(false);
         setCrackProgress(["[+] INITIALIZING HYDRA v9.4", "[+] TARGET: TN-CYB_RESUME_ENCRYPTED.pdf", "[+] LOADING WORDLIST... [rockyou.txt]"]);
-        
+
         let attempts = 0;
         bruteForceIntervalRef.current = setInterval(() => {
             attempts++;
@@ -92,15 +104,7 @@ export default function Navbar() {
             if (attempts > 25) {
                 clearInterval(bruteForceIntervalRef.current);
                 setCrackProgress(prev => [...prev.slice(-14), "[!] MATCH FOUND: 'admin123'", "[+] ENCRYPTION CRACKED. DOWNLOADING PORTFOLIO..."]);
-                setTimeout(() => {
-                    const link = document.createElement("a");
-                    link.href = "/resume.pdf";
-                    link.download = "Tanishq_Nikam_Resume.pdf";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    setTimeout(() => setBruteForceMode(false), 3000);
-                }, 1500);
+                setTimeout(() => setBruteForceMode(false), 4500);
             }
         }, 100);
     };
