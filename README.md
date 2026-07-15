@@ -2,6 +2,8 @@
 
 **Live Deployment:** [tanishqnikam.vercel.app](https://tanishqnikam.vercel.app)
 
+![TN-CYB homepage screenshot](.github/screenshot-home.png)
+
 Welcome to the **TN-CYB Portfolio**, a highly interactive, terminal-inspired web application designed to showcase my skills in security, automation, and engineering.
 
 This repository diverges from standard developer portfolios by framing the user experience as a Security Operations Center (SOC) dashboard. It combines modern web performance with immersive "hacker-movie" aesthetics and practical demonstrations of security knowledge.
@@ -68,6 +70,15 @@ To run the TN-CYB interface locally on your machine:
 4. **Access the portal**
    Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+### Available Scripts
+
+| Script | Description |
+|---|---|
+| `npm run dev` | Starts the local development server |
+| `npm run build` | Builds the app for production |
+| `npm run start` | Serves the production build locally |
+| `npm run lint` | Runs ESLint against the codebase |
+
 ---
 
 ## 🏴‍☠️ The Easter Eggs (Hidden Payloads)
@@ -97,4 +108,12 @@ Here is the complete manual of hidden features and how to trigger them:
 12. **The Ransomware Archive:** Scroll to the very bottom of the `/projects` page. Click the tiny `[ COMPRESS_CONFIDENTIAL_ARCHIVE.exe ]` text. A full-screen lockout occurs with a spinning skull, fake encryption progress bar, and a tongue-in-cheek ransom demand.
 
 ---
-*Developed and maintained by Tanishq Nikam.*
+
+## 👤 Author
+
+**Tanishq Nikam**
+
+- Portfolio: [tanishqnikam.vercel.app](https://tanishqnikam.vercel.app)
+- LinkedIn: [linkedin.com/in/tanishqnikam](https://linkedin.com/in/tanishqnikam)
+- GitHub: [@TanishqNikam](https://github.com/TanishqNikam)
+- Email: [tanishqnikam11@gmail.com](mailto:tanishqnikam11@gmail.com)
