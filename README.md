@@ -1,4 +1,4 @@
-# 🛡️ TN-CYB: Cybersecurity Portfolio & SOC Dashboard
+# 🛡️ TN-CYB: Cybersecurity Portfolio
 
 **Live Deployment:** [tanishqnikam.vercel.app](https://tanishqnikam.vercel.app)
 
